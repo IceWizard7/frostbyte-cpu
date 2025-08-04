@@ -1,4 +1,4 @@
-# BEFORE TRYING TO CREATE OR RUN A PROGRAM, READ THIS WHOLE PAGE!
+# Before trying to create or run a program, read this whole page!
 DISCLAIMER: Basic Assembly / Programming Skills are assumed
 
 ## What's in this repo?
