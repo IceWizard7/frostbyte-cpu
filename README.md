@@ -6,7 +6,7 @@ DISCLAIMER: Basic Assembly / Programming Skills are assumed
 All the code I wrote for my Redstone CPU
 
 
-assembler_to_schematic/ - A folder containing essential scripts to convert between assembler, machine code and worldedit schematic files
+- assembler_to_schematic/ - A folder containing essential scripts to convert between assembler, machine code and worldedit schematic files
 - assembler.py - A script to convert assembly files (.txt) to machine code files (.txt)
 - generator.py - A script to convert machine code files (.txt) to worldedit schematics (.schem)
 - main.py - A script to convert assembly files (.txt) to worldedit schematics (.schem) (Using assembler.py, then generator.py)
