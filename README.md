@@ -1,3 +1,16 @@
+# BEFORE TRYING TO CREATE OR RUN A PROGRAM, READ THIS WHOLE PAGE!
+DISCLAIMER: Basic Assembly / Programming Skills are assumed
+
+## What's in this repo?
+
+All the code I wrote for my Redstone CPU
+
+
+assembler_to_schematic/ - A folder containing essential scripts to convert between assembler, machine code and worldedit schematic files
+- assembler.py - A script to convert assembly files (.txt) to machine code files (.txt)
+- generator.py - A script to convert machine code files (.txt) to worldedit schematics (.schem)
+- main.py - A script to convert assembly files (.txt) to worldedit schematics (.schem) (Using assembler.py, then generator.py)
+- \_\_init\_\_.py - A file to mark the directory as a Python package
 
 static/* - A folder containing CSS and Images for the Simulator
 
