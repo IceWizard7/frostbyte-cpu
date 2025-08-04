@@ -534,7 +534,6 @@ if __name__ == '__main__':
 
 
 # NOTES:
-#
 # When re-running the code, make sure to refresh the web page on the client, to ensure the speed is up-to-date
 # When changing speeds, it might need 2-3 Instructions to update. To overcome this, you can alternatively press "Stop" and then "Continue"
 # The generated Minecraft schematic files can be found in /scripts/programs/...
