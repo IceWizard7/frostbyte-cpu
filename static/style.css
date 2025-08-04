@@ -1,0 +1,268 @@
+body, html {
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    background: #000;
+    color: #fff;
+    font-family: "Aleo", sans-serif;
+    font-size: 10;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-around;
+    width: 100%;
+    height: 100%;
+}
+
+.box {
+    background: #111;
+    padding: 5px;
+    border-radius: 20px;
+    margin: 5px;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 100%;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+    overflow: auto;
+}
+textarea {
+    background: #000;
+    color: #fff;
+    border: 1px solid #444;
+    border-radius: 10px;
+    padding: 10px;
+}
+button {
+    background: #222;
+    color: white;
+    padding: 7px 25px;
+    margin-top: 5px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+
+input[type="file"] {
+    color: white;
+}
+input[type="range"] {
+    width: 80%;
+}
+
+.collapsible {
+    background-color: #222;
+    color: white;
+    cursor: pointer;
+    padding: 10px;
+    border: none;
+    text-align: left;
+    width: 100%;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    transition: background-color 0.2s ease;
+}
+
+.collapsible:hover {
+    background-color: #444;
+}
+
+.collapsible.active {
+    background-color: #555;
+}
+
+.collapsible + .content {
+    display: none;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+}
+
+.collapsible.active + .content {
+    display: block;
+}
+
+.sub-collapsible {
+    background-color: #333;
+    color: white;
+    cursor: pointer;
+    padding: 6px 12px;
+    border: none;
+    text-align: left;
+    width: 100%;
+    font-size: 17px;
+    font-weight: bold;
+    border-radius: 6px;
+    margin: 5px 0;
+    transition: background-color 0.2s ease;
+}
+
+.sub-collapsible:hover {
+    background-color: #555;
+}
+
+.sub-collapsible.active {
+    background-color: #666;
+}
+
+.sub-content {
+    display: none;
+    padding: 10px;
+    background-color: #1a1a1a;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+/* This is the key change for displaying items in one line */
+.sub-collapsible.active + .sub-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); /* Adjust minmax as needed */
+    gap: 10px;
+    align-items: start;
+}
+
+.label {
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    white-space: nowrap; /* Prevent label from wrapping */
+}
+
+.value {
+    color: #ccc;
+    font-size: 15px;
+    margin-left: 0px;
+    white-space: nowrap; /* Prevent value from wrapping */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Add ellipsis for long values */
+}
+
+
+/* Styling for each item within the grid */
+.sub-content > div {
+    display: flex;
+    gap: 5px;
+    padding: 5px 10px;
+    border-radius: 6px;
+    background-color: #2a2a2a; /* Slightly darker background for individual items */
+    align-items: baseline; /* Align label and value nicely */
+}
+
+.lamp-grid {
+    display: grid;
+    grid-template-columns: repeat(31, 15px);
+    grid-gap: 0.5px;
+    justify-content: center;
+}
+
+.lamp-pixel {
+    width: 15px;
+    height: 15px;
+    image-rendering: pixelated;
+    display: block;
+    padding: 0;
+    margin: 0;
+    box-sizing: content-box;
+}
+
+.pc-header {
+    text-align: left;
+    padding-left: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+/* Wrapper for all control elements */
+.controls-wrapper {
+    background-color: #1a1a1a;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+/* Flex container for the speed controls */
+.speed-control-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+}
+
+/* Style for the +/- buttons */
+.speed-btn {
+    padding: 5px 12px;
+    font-size: 20px;
+    font-weight: bold;
+    flex-shrink: 0; /* Prevent buttons from shrinking */
+}
+
+/* Style for the direct number input */
+#speed-input {
+    width: 70px; /* Fixed width */
+    padding: 8px;
+    background: #000;
+    color: #fff;
+    border: 1px solid #444;
+    border-radius: 6px;
+    text-align: center;
+    font-size: 16px;
+}
+
+/* --- Custom Slider Styles --- */
+
+input[type="range"] {
+    -webkit-appearance: none; /* Override default CSS */
+    appearance: none;
+    width: 100%; /* Full width within its container */
+    height: 8px;
+    background: #333; /* Track color */
+    border-radius: 5px;
+    outline: none;
+    cursor: pointer;
+}
+
+/* Thumb (the slider handle) - WebKit (Chrome, Safari) */
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: #fff; /* White handle */
+    border-radius: 50%;
+    border: 2px solid #555;
+    margin-top: -6px; /* Center thumb on the track */
+}
+
+/* Thumb (the slider handle) - Mozilla (Firefox) */
+input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    background: #fff;
+    border-radius: 50%;
+    border: 2px solid #555;
+}
+
+.code-line {
+    padding: 2px 6px;
+    white-space: pre-wrap;
+}
+
+.code-line.highlight {
+    background-color: #444;
+    color: #0ff;
+    font-weight: bold;
+    border-left: 4px solid #0ff;
+}
