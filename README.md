@@ -14,9 +14,9 @@ assembler_to_schematic/ - A folder containing essential scripts to convert betwe
 
 static/* - A folder containing CSS and Images for the Simulator
 
-templates/index.html - An HTML Template for the Simulator
-
-app.py - Start script for the Simulator
+- static/* - A folder containing CSS and Images for the Simulator
+- templates/index.html - An HTML Template for the Simulator
+- app.py - Start script for the Simulator
 
 ## How can I create a program?
 
