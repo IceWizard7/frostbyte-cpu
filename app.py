@@ -534,15 +534,14 @@ if __name__ == '__main__':
 
 
 # NOTES:
-# !!! You MUST run this with "python3 -m scripts.simulator.app" !!!
 #
 # When re-running the code, make sure to refresh the web page on the client, to ensure the speed is up-to-date
-# When changing speeds, it might need 2-3 Instructions to update. To overcome this, you can alternatively press "Stop" & "Continue"
+# When changing speeds, it might need 2-3 Instructions to update. To overcome this, you can alternatively press "Stop" and then "Continue"
 # The generated Minecraft schematic files can be found in /scripts/programs/...
 # There's no syntax highlighting
 
 # TODOs:
-# TODO Give user feedback w/ Schematic Generation
 # TODO Auto-Scroll Feature: Work-In-Progress (commented out in JS)
 # TODO Implement I/O Controller
 # TODO: Might throw list index out of range error when there's no halt at the end of the program
+# TODO: Add stuff with (Will be added soon)

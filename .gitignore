@@ -1,2 +1,6 @@
 machine_code.txt
 saved_input.txt
+assembler_to_schematic/assembly.txt
+assembler_to_schematic/machine_code.txt
+programs/*
+.venv
