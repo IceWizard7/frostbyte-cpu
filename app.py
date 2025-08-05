@@ -25,7 +25,7 @@ class Simulator:
         self.simulation_running = False
         self.program_counter = 16 * '0'  # To not re-write int_to_bin & bin_to_int, we consider this a 16-bit Number. Doesn't change anything.
 
-        self.screen_data: list[list[int]] = [[(i + j) % 2 for i in range(31)] for j in range(31)]
+        self.screen_data: list[list[int]] = [[0 for _ in range(31)] for _ in range(31)]
         self.screen_buffer: list[list[int]] = [[0 for _ in range(31)] for _ in range(31)]
         self.screen_d_latch_data = 0
         self.screen_x = 0
@@ -531,16 +531,3 @@ def upload():
 
 if __name__ == '__main__':
     socketio.run(app=app, host="0.0.0.0", port=5000, debug=True, allow_unsafe_werkzeug=True)
-
-
-# NOTES:
-# When re-running the code, make sure to refresh the web page on the client, to ensure the speed is up-to-date
-# When changing speeds, it might need 2-3 Instructions to update. To overcome this, you can alternatively press "Stop" and then "Continue"
-# The generated Minecraft schematic files can be found in /scripts/programs/...
-# There's no syntax highlighting
-
-# TODOs:
-# TODO Auto-Scroll Feature: Work-In-Progress (commented out in JS)
-# TODO Implement I/O Controller
-# TODO: Might throw list index out of range error when there's no halt at the end of the program
-# TODO: Add stuff with (Will be added soon)
