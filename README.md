@@ -76,6 +76,7 @@ Comments need to be started with a #.
 ### 1. Running a program on the simulator
 
 - Execute the app.py script
+- Open your browser and connect to ```localhost:5000```
 - Drag and drop the Assembler file in the dashed-outline box
 - Press "Continue"
 
