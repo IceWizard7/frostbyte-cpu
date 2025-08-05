@@ -280,7 +280,7 @@ class Simulator:
     def port_load(self, address, bin_reg_address):
         bin_address = self.int_to_bin(int(address))[13:16]
 
-        value = 16 * 'ß'
+        value = 16 * '0'
 
         match bin_address:
             case '000':
