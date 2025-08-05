@@ -103,7 +103,7 @@ DISCLAIMER: This will be **extremely slow**, as the CPU completes 1 instruction 
 In newer versions of minecraft, you can run
 ``/tick speed [X]`` to increase the tick speed.
 
-Alternatively, you can use [Carpet](https://www.curseforge.com/minecraft/mc-mods/carpe)
+Alternatively, you can use [Carpet (Modrinth Download)](https://modrinth.com/mod/carpet)
 
 ### Speedup Method #2 - MCHPRS
 DISCLAIMER: These instructions may not be up-to-date and are for **Windows** only!
