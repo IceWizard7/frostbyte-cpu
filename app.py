@@ -6,6 +6,7 @@ from colorama import Fore, Style
 import time
 import random
 from assembler_to_schematic import generator
+import copy
 
 app = Flask(__name__)
 socketio = SocketIO(app)
@@ -328,7 +329,7 @@ class Simulator:
                     for y in range(31):
                         self.screen_buffer[y][x] = self.screen_d_latch_data
             case '111':  # Pushes the Buffer on store with any value
-                self.screen_data = self.screen_buffer
+                self.screen_data = copy.deepcopy(self.screen_buffer)
 
     def reset_simulation(self):
         global simulator
