@@ -1,13 +1,9 @@
 # Before trying to create or run a program, read this whole page!
 > DISCLAIMER: Basic Assembly / Programming Skills are assumed
 
----
-
 ## What's in this repo?
 
 All the supporting code I wrote for my Minecraft CPU.
-
----
 
 ### `assembler_to_schematic/`
 
@@ -29,8 +25,6 @@ HTML Templates for the Simulator.
 ### `app.py`
 
 Script to start the simulator
-
----
 
 ## How can I create a program?
 
@@ -78,8 +72,6 @@ Registers need to be written as r0 through r31. \
 Immediates need to be written as decimal. \
 Ports need to be written as p0 through p7. \
 Comments need to be started with a #.
-
----
 
 ## How can I run a program?
 
@@ -138,8 +130,6 @@ Alternatively, you can use [Carpet (Modrinth Download)](https://modrinth.com/mod
 ### Example Programs
 (Will be added soon)
 
-
----
 
 ## License
 
