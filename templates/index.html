@@ -116,13 +116,14 @@
                     <input type="number" id="speed-input" min="1" max="2500" value="{{ speed_value | default(100) }}">
                 </div>
 
-                <button id="reset-btn">Reset</button>
-                <button id="step-btn">Step</button>
-                <button id="stop-btn">Stop</button>
-                <button id="continue-btn">Continue</button>
-                <button id="gen-schem-btn">Generate Schematic</button>
+                <button id="reset-btn">Reset (R)</button>
+                <button id="step-btn">Step (T)</button>
+                <button id="stop-btn">Stop (Space)</button>
+                <button id="continue-btn">Continue (S)</button>
+                <button id="gen-schem-btn">Generate Schematic (G)</button>
                 <div id="gen-schem-status" style="margin-top: 10px; color: limegreen;"></div>
-
+                <input type="checkbox" name="auto-scroll" id="auto-scroll-toggle" value="no">
+                <label for="auto-scroll-toggle">Auto-Scroll</label>
             </div>
         </div>
     </div>

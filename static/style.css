@@ -266,3 +266,14 @@ input[type="range"]::-moz-range-thumb {
     font-weight: bold;
     border-left: 4px solid #0ff;
 }
+
+
+#reset-btn.pressed,
+#continue-btn.pressed,
+#step-btn.pressed,
+#stop-btn.pressed,
+#gen-schem-btn.pressed {
+    transform: scale(0.95);
+    filter: brightness(0.9);
+    transition: transform 0.1s, filter 0.1s;
+}

@@ -106,7 +106,10 @@ function performUIUpdate(data) {
 
     if (lineElement) {
         lineElement.classList.add('highlight');
-        // lineElement.scrollIntoView({ behavior: 'smooth', block: 'center' }); // Optional Auto-Scroll
+        const autoScrollEnabled = document.getElementById('auto-scroll-toggle')?.checked;
+        if (autoScrollEnabled) {
+            lineElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
     } else {
         console.warn("No .code-line found for index:", currentLine);
     }
@@ -242,6 +245,77 @@ function restoreSpeed() {
     } else {
         updateSpeed(parseInt(speedSlider.value)); // Use initial slider value if nothing saved
     }
+}
+
+const AUTO_SCROLL_KEY = 'autoScrollEnabled';
+const autoScrollCheckbox = document.getElementById('auto-scroll-toggle');
+
+// Restore saved auto-scroll setting on page load
+document.addEventListener('DOMContentLoaded', () => {
+    const savedState = localStorage.getItem(AUTO_SCROLL_KEY);
+    const enabled = savedState === 'true'; // Default to false if not set
+    autoScrollCheckbox.checked = enabled;
+
+});
+
+// When checkbox is toggled, update storage and emit
+autoScrollCheckbox.addEventListener('change', () => {
+    const enabled = autoScrollCheckbox.checked;
+    localStorage.setItem(AUTO_SCROLL_KEY, enabled.toString());
+});
+
+document.addEventListener('keydown', (event) => {
+    const activeElement = document.activeElement;
+    const isTyping = activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA';
+    if (isTyping) return;
+
+    const key = event.key.toLowerCase();
+
+    switch (key) {
+        case 'r':
+            socket.emit('reset_simulation');
+            visuallyPress('reset-btn');
+            break;
+
+        case 's':
+            socket.emit('continue_simulation');
+            visuallyPress('continue-btn');
+            break;
+
+        case 't':
+            socket.emit('step_simulation');
+            visuallyPress('step-btn');
+            break;
+
+        case ' ':
+            event.preventDefault(); // Prevent page scrolling
+            socket.emit('stop_simulation');
+            visuallyPress('stop-btn');
+            break;
+
+        case 'g':
+            socket.emit('generate_schematic', (response) => {
+                const status = document.getElementById('gen-schem-status');
+                if (status) {
+                    status.textContent = 'Generated Schematic successfully!';
+                    setTimeout(() => {
+                        status.textContent = '';
+                    }, 750);
+                }
+            });
+            visuallyPress('gen-schem-btn');
+            break;
+
+    }
+});
+
+// Visual feedback for buttons
+function visuallyPress(buttonId) {
+    const btn = document.getElementById(buttonId);
+    if (!btn) return;
+
+    btn.classList.add('pressed');
+    setTimeout(() => btn.classList.remove('pressed'), 150);
 }
 
 document.addEventListener('DOMContentLoaded', restoreSpeed);
