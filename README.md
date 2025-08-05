@@ -80,8 +80,8 @@ Comments need to be started with a #.
 - Press "Continue"
 
 Notes:
-When re-running the code, make sure to refresh the web page on the client, to ensure the speed is up-to-date.\
-When changing speeds, it might need 2-3 Instructions to update. To overcome this, you can alternatively press "Stop" and then "Continue". \
+When re-running app.py, make sure to refresh the web page on the client, to ensure the speed is up-to-date.\
+When changing speeds, it might need 2-3 Seconds to update. To overcome this, you can alternatively press "Stop" and then "Continue". \
 The generated Minecraft schematic files can be found in programs/
 
 ### 2. Running a program on the Minecraft CPU
