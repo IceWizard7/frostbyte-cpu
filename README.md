@@ -61,13 +61,11 @@ Any future references to apple will resolve to 5.
 
 ### Symbols
 
-Opcodes need to be written as their 3-letter mnemonic.
-
-Registers need to be written as r0 through r31.
-
-Immediates need to be written as decimal.
-
-Ports need to be written as p0 through p7.
+Opcodes need to be written as their 3-letter mnemonic. \
+Registers need to be written as r0 through r31. \
+Immediates need to be written as decimal. \
+Ports need to be written as p0 through p7. \
+Comments need to be started with a #.
 
 ## How can I run a program?
 
