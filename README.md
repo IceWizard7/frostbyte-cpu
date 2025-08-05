@@ -12,7 +12,7 @@ All the supporting code I wrote for my Minecraft CPU.
 - |- \_\_init\_\_.py - A file to mark the directory as a Python package
 
 
-- static/* - A folder containing CSS and Images for the Simulator
+- static/* - A folder containing CSS, JS and Images for the Simulator
 
 
 - templates/* - A folder containing HTML Templates for the Simulator
