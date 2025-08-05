@@ -1,24 +1,36 @@
 # Before trying to create or run a program, read this whole page!
-DISCLAIMER: Basic Assembly / Programming Skills are assumed
+> DISCLAIMER: Basic Assembly / Programming Skills are assumed
+
+---
 
 ## What's in this repo?
 
 All the supporting code I wrote for my Minecraft CPU.
 
-- assembler_to_schematic/
-- |- assembler.py - A script to convert assembly files (.txt) to machine code files (.txt)
-- |- generator.py - A script to convert machine code files (.txt) to worldedit schematics (.schem)
-- |- main.py - A script to convert assembly files (.txt) to worldedit schematics (.schem) (Using assembler.py, then generator.py)
-- |- \_\_init\_\_.py - A file to mark the directory as a Python package
+---
 
+### `assembler_to_schematic/`
 
-- static/* - A folder containing CSS, JS and Images for the Simulator
+Scripts converting assembly files into schematics:
 
+- `assembler.py` - Converts assembly files (`.txt`) to machine code files (`.txt`)
+- `generator.py` - Converts machine codes files (`.txt`) to WorldEdit schematics (`.schem`)
+- `main.py` - Converts assembly files directly to schematics using `assembler.py` and `generator.py`
+- `__init__.py` - Marks the directory as a Python Package
 
-- templates/* - A folder containing HTML Templates for the Simulator
+### `static/`
 
+Contains CSS, JavaScript and images for the simulator
 
-- app.py - Start script for the Simulator
+### `templates/`
+
+HTML Templates for the Simulator.
+
+### `app.py`
+
+Script to start the simulator
+
+---
 
 ## How can I create a program?
 
@@ -67,6 +79,8 @@ Immediates need to be written as decimal. \
 Ports need to be written as p0 through p7. \
 Comments need to be started with a #.
 
+---
+
 ## How can I run a program?
 
 - Clone this repository
@@ -80,13 +94,13 @@ Comments need to be started with a #.
 - Drag and drop the Assembler file in the dashed-outline box
 - Press "Continue"
 
-Notes:
+> Note:
 When re-running app.py, make sure to refresh the web page on the client, to ensure the speed is up-to-date.\
 When changing speeds, it might need 2-3 Seconds to update. To overcome this, you can alternatively press "Stop" and then "Continue". \
 The generated Minecraft schematic files can be found in programs/
 
 ### 2. Running a program on the Minecraft CPU
-DISCLAIMER: This will be **extremely slow**, as the CPU completes 1 instruction every ~20 at vanilla speeds. See the next section for speedup methods.
+> DISCLAIMER: This will be **extremely slow**, as the CPU completes 1 instruction every ~20 at vanilla speeds. See the next section for speedup methods.
 
 - Execute the app.py script
 - Drag and drop the Assembler file in the dashed-outline box
@@ -107,7 +121,7 @@ In newer versions of minecraft, you can run
 Alternatively, you can use [Carpet (Modrinth Download)](https://modrinth.com/mod/carpet)
 
 ### Speedup Method #2 - MCHPRS
-DISCLAIMER: These instructions may not be up-to-date and are for **Windows** only!
+> DISCLAIMER: These instructions may not be up-to-date and are for **Windows** only!
 
 [MCHPRS](https://github.com/MCHPR/MCHPRS/releases) is a custom server designed to speedup redstone to incredible speed.
 
@@ -124,6 +138,8 @@ DISCLAIMER: These instructions may not be up-to-date and are for **Windows** onl
 ### Example Programs
 (Will be added soon)
 
+
+---
 
 ## License
 
