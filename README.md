@@ -117,3 +117,13 @@ DISCLAIMER: These instructions may not be up-to-date and are for **Windows** onl
 
 ### Example Programs
 (Will be added soon)
+
+
+## License
+
+This project is licensed under a custom **MIT-style license** with the following restrictions:
+- No commercial use
+- Attribution to **IceWizard7** is required in all copies, forks, and modified versions
+- You may not claim authorship or original ownership of this software
+
+See [LICENSE](./LICENSE) for full details.
