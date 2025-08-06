@@ -82,7 +82,7 @@ Comments need to be started with a #.
 ### 1. Running a program on the simulator
 
 - Execute the app.py script
-- Open your browser and connect to ```localhost:5000```
+- Open your browser and connect to ```localhost:5001```
 - Drag and drop the Assembler file in the dashed-outline box
 - Press "Continue"
 
@@ -120,7 +120,7 @@ Alternatively, you can use [Carpet (Modrinth Download)](https://modrinth.com/mod
 - Grab the [latest release](https://github.com/MCHPR/MCHPRS/releases)
 - Run the just-downloaded .exe
 - A server console should launch. Test connecting to the server by joining the multiplayer ip ```localhost```. Also, new folders/files should have also been created. One of these folders should be called "schems"
-- Go back to the cpu in singleplayer. You should have your program already pasted in and updated. Create a worldedit selection of the entire computer. Run ``//copy``, and ```//schem save [name]```
+- Go back to the cpu in singleplayer. You should have your program already pasted in and updated. Create a WorldEdit selection of the entire computer. Run ``//copy``, and ```//schem save [name]```
 - Transfer the newly created schematic from .minecraft/config/worldedit/schematics to the MCHPRS "schems"-folder
 - Join the server again. Run ```//load [name]```, and ```//paste```
 - Use ```/rtps [X]``` to set the redstone ticks per second, or ```/rtps unlimited``` for maximum speed.
