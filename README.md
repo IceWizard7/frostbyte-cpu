@@ -20,7 +20,7 @@ Contains CSS, JavaScript and images for the simulator
 
 ### `templates/`
 
-HTML Templates for the Simulator.
+Contains HTML Templates for the Simulator.
 
 ### `app.py`
 
