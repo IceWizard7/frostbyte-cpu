@@ -1,4 +1,4 @@
 TODOs:
-- Implement I/O Controller
+- Add stuff with "(Will be added soon)": ISA, CPU Download Link + Coordinates, Example Programs
 - Might throw list index out of range error when there's no halt at the end of the program
-- Add stuff with "(Will be added soon)"
+- Implement I/O Controller
