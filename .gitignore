@@ -3,4 +3,6 @@ saved_input.txt
 assembler_to_schematic/assembly.txt
 assembler_to_schematic/machine_code.txt
 programs/*
+__pycache__
+assembler_to_schematic/__pycache__
 .venv
