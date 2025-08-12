@@ -3,8 +3,6 @@ import datetime
 import sys
 from colorama import Fore, Style
 
-filename = f'Program_{datetime.datetime.now().strftime("%d_%m_%y-%H_%M_%S")}'
-
 xz_locations = []
 y_locations = [-3, -5, -7, -9, -13, -15, -17, -19, -21, -23, -25, -29, -31, -33, -35, -37, -39, -41, -45, -47, -49, -51, -53, -55, -57, -61, -63, -65, -67, -69, -71, -73]
 
@@ -14,6 +12,8 @@ for i in range(32):
 
 
 def generate_schematic():
+    filename = f'Program_{datetime.datetime.now().strftime("%d_%m_%y-%H_%M_%S")}'
+
     schem = mcschematic.MCSchematic()
 
     with open('assembler_to_schematic/machine_code.txt', 'r') as file:
