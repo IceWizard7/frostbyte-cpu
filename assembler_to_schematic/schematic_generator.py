@@ -47,6 +47,6 @@ def generate_schematic():
     schem.save('programs', filename, mcschematic.Version.JE_1_20_4)
 
     print(f'{Fore.LIGHTGREEN_EX}Successfully generated Schematic! ({filename}){Style.RESET_ALL}')
-    print(f'Paste with:')
-    print(f'//schematic load {filename}')
-    print(f'//paste -a')
+    # print(f'Paste with:')
+    # print(f'//schematic load {filename}')
+    # print(f'//paste -a')

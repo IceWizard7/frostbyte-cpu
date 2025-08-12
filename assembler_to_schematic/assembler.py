@@ -157,5 +157,5 @@ def generate_machine_code():
         # print(line)
         machine_code.append(translate_instruction_to_machine_code(line.upper()))
     write_machine_code(machine_code)
-    print()
+    # print()
     print(f'{Fore.LIGHTGREEN_EX}Successfully generated Machine Code!{Style.RESET_ALL}')
