@@ -29,7 +29,7 @@ Script to start the simulator
 ## How can I create a program?
 
 To create a new program, simply create a new text file (with the .txt extension), and open the file with any text editor. \
-For more information, look into the ISA. (Will be added soon)
+For more information, look into the [ISA](https://docs.google.com/spreadsheets/d/1viN53t4hzh6zwSHijZFirdvYLe23ab2iistlOhTBxLI/edit?usp=sharing).
 
 ### Syntax
 
