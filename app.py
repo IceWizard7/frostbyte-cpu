@@ -286,11 +286,12 @@ class Simulator:
 
         match bin_address:
             case '000':
-                value = (8 * '0' + self.controller['X'] + self.controller['Y'] +
-                         self.controller['SELECT'] + self.controller['START'] +
-                         self.controller['LEFT'] + self.controller['DOWN'] +
-                         self.controller['RIGHT'] + self.controller['UP'])
-                self.update_controller()
+                value = (8 * '0' + str(self.controller['X']) + str(self.controller['Y']) +
+                         str(self.controller['SELECT']) + str(self.controller['START']) +
+                         str(self.controller['LEFT']) + str(self.controller['DOWN']) +
+                         str(self.controller['RIGHT']) + str(self.controller['UP']))
+
+                self.controller = {'UP': 0, 'RIGHT': 0, 'DOWN': 0, 'LEFT': 0, 'START': 0, 'SELECT': 0, 'Y': 0, 'X': 0}
                 # Bit 1 (LSB): D-Pad Up
                 # Bit 2: D-Pad Right
                 # Bit 3: D-Pad Down
@@ -304,9 +305,6 @@ class Simulator:
 
         self.REGISTERS[bin_reg_address] = value
 
-    def update_controller(self):
-        self.controller = {'UP': 0, 'RIGHT': 0, 'DOWN': 0, 'LEFT': 0, 'START': 0, 'SELECT': 0, 'Y': 0, 'X': 0}
-        # TODO: get controller input from front-end
 
     def port_store(self, address, bin_value):
         bin_address = self.int_to_bin(int(address))[13:16]
@@ -493,6 +491,19 @@ def handle_update_speed(data):
 def handle_request_update():
     print(f'Requested an Update')
     simulator.return_info(emit=True)
+
+
+@socketio.on('controller_update')
+def handle_controller_update(data):
+    controller_data = data.get('controller')
+    # print(f'frontend: {controller_data} sent this.')
+    simulator.controller = {'UP': controller_data['UP'], 'RIGHT': controller_data['RIGHT'],
+                            'DOWN': controller_data['DOWN'], 'LEFT': controller_data['LEFT'],
+                            'START': (controller_data['START'] or simulator.controller['START']),
+                            'SELECT': (controller_data['SELECT'] or simulator.controller['SELECT']),
+                            'Y': (controller_data['Y'] or simulator.controller['Y']),
+                            'X': (controller_data['X'] or simulator.controller['X'])}
+    # print(f'backend: {simulator.controller} updated this.')
 
 
 @app.route('/save', methods=['POST'])

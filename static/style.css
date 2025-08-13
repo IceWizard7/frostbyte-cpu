@@ -41,6 +41,7 @@ textarea {
     border-radius: 10px;
     padding: 10px;
 }
+
 button {
     background: #222;
     color: white;
@@ -51,8 +52,8 @@ button {
     cursor: pointer;
     font-size: 20px;
     font-weight: bold;
+    /*line-height: 30px; Centers text vertically */
 }
-
 
 input[type="file"] {
     color: white;
@@ -267,13 +268,26 @@ input[type="range"]::-moz-range-thumb {
     border-left: 4px solid #0ff;
 }
 
-
+#btn-up.pressed,
+#btn-down.pressed,
+#btn-left.pressed,
+#btn-right.pressed,
+#btn-select.pressed,
+#btn-start.pressed,
+#btn-x.pressed,
+#btn-y.pressed,
 #reset-btn.pressed,
 #continue-btn.pressed,
 #step-btn.pressed,
 #stop-btn.pressed,
+#save-btn.pressed,
 #gen-schem-btn.pressed {
     transform: scale(0.95);
     filter: brightness(0.9);
     transition: transform 0.1s, filter 0.1s;
+}
+
+.controls-layout button {
+    width: 120px;
+    height: 50px;
 }

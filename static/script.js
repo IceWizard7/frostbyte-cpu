@@ -264,6 +264,10 @@ autoScrollCheckbox.addEventListener('change', () => {
     localStorage.setItem(AUTO_SCROLL_KEY, enabled.toString());
 });
 
+// Controller Input Handling
+const keysPressed = new Set();
+
+// Keyboard binds
 document.addEventListener('keydown', (event) => {
     const activeElement = document.activeElement;
     const isTyping = activeElement.tagName === 'INPUT' || activeElement.tagName === 'TEXTAREA';
@@ -272,12 +276,23 @@ document.addEventListener('keydown', (event) => {
     const key = event.key.toLowerCase();
 
     switch (key) {
+        case 'w':
+        case 'a':
+        case 's':
+        case 'd':
+            if (!keysPressed.has(key)) { // Only trigger on first press
+                keysPressed.add(key);
+                updateVisualButton(key, true);
+            }
+            event.preventDefault(); // prevent scrolling
+            break;
+
         case 'r':
             socket.emit('reset_simulation');
             visuallyPress('reset-btn');
             break;
 
-        case 's':
+        case 'c':
             socket.emit('continue_simulation');
             visuallyPress('continue-btn');
             break;
@@ -294,20 +309,34 @@ document.addEventListener('keydown', (event) => {
             break;
 
         case 'g':
-            socket.emit('generate_schematic', (response) => {
+            socket.emit('generate_schematic', () => {
                 const status = document.getElementById('gen-schem-status');
                 if (status) {
                     status.textContent = 'Generated Schematic successfully!';
-                    setTimeout(() => {
-                        status.textContent = '';
-                    }, 750);
+                    setTimeout(() => status.textContent = '', 750);
                 }
             });
             visuallyPress('gen-schem-btn');
             break;
-
     }
 });
+
+document.addEventListener('keyup', (event) => {
+    const key = event.key.toLowerCase();
+    if (['w', 'a', 's', 'd'].includes(key)) {
+        keysPressed.delete(key);
+        updateVisualButton(key, false);
+    }
+});
+
+function updateVisualButton(key, pressed) {
+    const keyMap = { w: 'btn-up', a: 'btn-left', s: 'btn-down', d: 'btn-right' };
+    const btn = document.getElementById(keyMap[key]);
+    if (btn) {
+        btn.classList.toggle('pressed', pressed);
+        sendControllerUpdate();
+    }
+}
 
 // Visual feedback for buttons
 function visuallyPress(buttonId) {
@@ -372,4 +401,52 @@ function saveText() {
     });
 
     socket.emit('request_update');
+}
+
+document.querySelectorAll('button').forEach(btn => {
+    btn.addEventListener('mousedown', () => {
+        btn.classList.add('pressed');
+        sendControllerUpdate();
+    });
+    btn.addEventListener('mouseup', () => {
+        btn.classList.remove('pressed');
+        sendControllerUpdate();
+    });
+    btn.addEventListener('mouseleave', () => {
+        btn.classList.remove('pressed');
+        sendControllerUpdate();
+    });
+    btn.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        btn.classList.add('pressed');
+        sendControllerUpdate();
+    });
+    btn.addEventListener('touchend', (e) => {
+        e.preventDefault();
+        btn.classList.remove('pressed');
+        sendControllerUpdate();
+    });
+});
+
+function getControllerData() {
+    return {
+        UP:     isButtonPressed('btn-up'),
+        RIGHT:  isButtonPressed('btn-right'),
+        DOWN:   isButtonPressed('btn-down'),
+        LEFT:   isButtonPressed('btn-left'),
+        START:  isButtonPressed('btn-start'),
+        SELECT: isButtonPressed('btn-select'),
+        Y:      isButtonPressed('btn-y'),
+        X:      isButtonPressed('btn-x')
+    };
+}
+
+function isButtonPressed(id) {
+    const btn = document.getElementById(id);
+    return btn && btn.classList.contains('pressed') ? 1 : 0;
+}
+
+function sendControllerUpdate() {
+    const controllerData = getControllerData();
+    socket.emit('controller_update', { controller: controllerData });
 }

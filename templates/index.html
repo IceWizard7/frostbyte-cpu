@@ -35,7 +35,32 @@
                     </div>
                 </div>
             </div>
+            <div class="controls-layout">
+                <!-- Movement (WASD style) -->
+                <div class="move-controls">
+                    <div class="row up-row">
+                        <button id="btn-up">UP</button>
+                    </div>
+                    <div class="row middle-row">
+                        <button id="btn-left">LEFT</button>
+                        <button id="btn-down">DOWN</button>
+                        <button id="btn-right">RIGHT</button>
+                    </div>
+                </div>
+
+                <br>
+
+                <!-- Action buttons -->
+                <div>
+                    <button id="btn-select">Select</button>
+                    <button id="btn-start">Start</button>
+                    <button id="btn-x">X</button>
+                    <button id="btn-y">Y</button>
+                </div>
+            </div>
         </div>
+
+
 
     <div class="box" style="flex: 2;">
         <button class="collapsible active">Memory & Controls</button>
@@ -119,7 +144,7 @@
                 <button id="reset-btn">Reset (R)</button>
                 <button id="step-btn">Step (T)</button>
                 <button id="stop-btn">Stop (Space)</button>
-                <button id="continue-btn">Continue (S)</button>
+                <button id="continue-btn">Continue (C)</button>
                 <button id="gen-schem-btn">Generate Schematic (G)</button>
                 <div id="gen-schem-status" style="margin-top: 10px; color: limegreen;"></div>
                 <input type="checkbox" name="auto-scroll" id="auto-scroll-toggle" value="no">
@@ -140,7 +165,7 @@
                 -->
 
                 <textarea spellcheck="false" id="codeInput" rows="30" style="width: 100%; font-size: 20px;">{{ saved_text }}</textarea>
-                <button onclick="saveText()">Save</button>
+                <button onclick="saveText()" id="save-btn">Save</button>
                 <div id="save-status" style="margin-top: 10px; color: limegreen;"></div>
 
                 <div id="code-viewer">
