@@ -40,6 +40,7 @@ class Simulator:
                            'RET', 'BEQ', 'BNE', 'BLT', 'BGT', 'HLT']
 
         self.speed = speed
+        self.controller = {'UP': 0, 'RIGHT': 0, 'DOWN': 0, 'LEFT': 0, 'START': 0, 'SELECT': 0, 'Y': 0, 'X': 0}
 
     def read_assembly_file(self, filename='saved_input.txt'):
         with open(filename, 'r') as file:
@@ -285,11 +286,27 @@ class Simulator:
 
         match bin_address:
             case '000':
-                value = ...  # TODO: Add controller
+                value = (8 * '0' + self.controller['X'] + self.controller['Y'] +
+                         self.controller['SELECT'] + self.controller['START'] +
+                         self.controller['LEFT'] + self.controller['DOWN'] +
+                         self.controller['RIGHT'] + self.controller['UP'])
+                self.update_controller()
+                # Bit 1 (LSB): D-Pad Up
+                # Bit 2: D-Pad Right
+                # Bit 3: D-Pad Down
+                # Bit 4: D-Pad Left
+                # Bit 5: Start
+                # Bit 6: Select
+                # Bit 7: Y
+                # Bit 8 (MSB): X
             case '001':
                 value = self.PORTS_READ_ONLY[f'P{address}']
 
         self.REGISTERS[bin_reg_address] = value
+
+    def update_controller(self):
+        self.controller = {'UP': 0, 'RIGHT': 0, 'DOWN': 0, 'LEFT': 0, 'START': 0, 'SELECT': 0, 'Y': 0, 'X': 0}
+        # TODO: get controller input from front-end
 
     def port_store(self, address, bin_value):
         bin_address = self.int_to_bin(int(address))[13:16]
