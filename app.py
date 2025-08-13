@@ -502,6 +502,12 @@ def handle_controller_update(data):
                             'SELECT': (controller_data['SELECT'] or simulator.controller['SELECT']),
                             'Y': (controller_data['Y'] or simulator.controller['Y']),
                             'X': (controller_data['X'] or simulator.controller['X'])}
+    value = (8 * '0' + str(simulator.controller['X']) + str(simulator.controller['Y']) +
+             str(simulator.controller['SELECT']) + str(simulator.controller['START']) +
+             str(simulator.controller['LEFT']) + str(simulator.controller['DOWN']) +
+             str(simulator.controller['RIGHT']) + str(simulator.controller['UP']))
+    simulator.PORTS_READ_ONLY['P0'] = value
+    simulator.return_info(emit=True)
     # print(f'backend: {simulator.controller} updated this.')
 
 
