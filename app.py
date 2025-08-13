@@ -5,7 +5,7 @@ import sys
 from colorama import Fore, Style
 import time
 import random
-from assembler_to_schematic import generator
+from assembly_to_schematic import generator
 import copy
 
 app = Flask(__name__)
@@ -442,7 +442,7 @@ class Simulator:
         with open(SAVE_PATH, 'r') as file:
             code = file.read()
 
-        with open('assembler_to_schematic/assembly.txt', 'w') as file:
+        with open('assembly_to_schematic/assembly.txt', 'w') as file:
             for line in code:
                 file.write(line)
 
