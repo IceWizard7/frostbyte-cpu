@@ -1,0 +1,16 @@
+# Initialize values
+adi r1 r0 1
+adi r2 r0 1
+adi r5 r0 256 # Number Display enable Bit
+
+.loop # Main Loop
+pt-st r4 p2 # Update Number Display
+add r3 r2 r1
+
+adi r1 r2 0
+adi r2 r3 0
+or r4 r3 r5 # OR value with Enable Bit
+sub r0 r3 r5 # if value > 256 -> break
+blt .loop
+
+hlt
