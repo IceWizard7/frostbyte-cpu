@@ -165,7 +165,7 @@ class Simulator:
         if result_bin == 16 * '0':
             self.ALU_FLAGS['BEQ'] = True
 
-        if self.ALU_FLAGS['BEQ'] is False:
+        if not self.ALU_FLAGS['BEQ']:
             self.ALU_FLAGS['BNE'] = True
 
         if self.ALU_FLAGS['BEQ'] is False and self.ALU_FLAGS['BLT'] is False:
@@ -244,19 +244,19 @@ class Simulator:
                 self.program_counter = self.call_stack.pop()
                 jump_instruction = True
             case 'BEQ':
-                if self.ALU_FLAGS['BEQ'] is True:
+                if self.ALU_FLAGS['BEQ']:
                     self.program_counter = self.int_to_bin(int(parts[1]))
                     jump_instruction = True
             case 'BNE':
-                if self.ALU_FLAGS['BNE'] is True:
+                if self.ALU_FLAGS['BNE']:
                     self.program_counter = self.int_to_bin(int(parts[1]))
                     jump_instruction = True
             case 'BLT':
-                if self.ALU_FLAGS['BLT'] is True:
+                if self.ALU_FLAGS['BLT']:
                     self.program_counter = self.int_to_bin(int(parts[1]))
                     jump_instruction = True
             case 'BGT':
-                if self.ALU_FLAGS['BGT'] is True:
+                if self.ALU_FLAGS['BGT']:
                     self.program_counter = self.int_to_bin(int(parts[1]))
                     jump_instruction = True
             case 'HLT':
@@ -304,7 +304,6 @@ class Simulator:
                 value = self.PORTS_READ_ONLY[f'P{address}']
 
         self.REGISTERS[bin_reg_address] = value
-
 
     def port_store(self, address, bin_value):
         bin_address = self.int_to_bin(int(address))[13:16]
