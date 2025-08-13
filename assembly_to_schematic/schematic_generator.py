@@ -16,7 +16,7 @@ def generate_schematic():
 
     schem = mcschematic.MCSchematic()
 
-    with open('assembler_to_schematic/machine_code.txt', 'r') as file:
+    with open('assembly_to_schematic/machine_code.txt', 'r') as file:
         content = file.readlines()
 
     clean_content = []

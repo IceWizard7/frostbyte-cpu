@@ -3,7 +3,7 @@ from . import schematic_generator
 
 # This Script converts FROSTBYTE Assembler -> Schematic for the FROSTBYTE CPU
 #
-# Enter your assembler_to_schematic code (into "assembly.txt")
+# Enter your assembly_to_schematic code (into "assembly.txt")
 # Then it gets converted to machine code (into "machine_code.txt")
 # Then it gets converted to a Minecraft Schematic that you can paste in with Worldedit (into programs/Program_[Time])
 

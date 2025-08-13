@@ -24,7 +24,7 @@ OPCODES = {'NOP': '00000',
            }
 
 
-def read_assembly_file(filename='assembler_to_schematic/assembly.txt'):
+def read_assembly_file(filename='assembly_to_schematic/assembly.txt'):
     with open(filename, 'r') as file:
         return [line.strip() for line in file if line.strip()]
 
@@ -114,7 +114,7 @@ def preprocess_assembly():
 
 
 def write_machine_code(machine_code):
-    with open('assembler_to_schematic/machine_code.txt', 'w') as file:
+    with open('assembly_to_schematic/machine_code.txt', 'w') as file:
         for line in machine_code:
             file.write(line + '\n')
 
