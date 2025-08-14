@@ -7,6 +7,7 @@ import time
 import random
 from assembly_to_schematic import generator
 import copy
+import re
 
 app = Flask(__name__)
 socketio = SocketIO(app)
@@ -112,6 +113,25 @@ class Simulator:
             result.append(' '.join(new_tokens))
         return result
 
+    def extract_characters(self, lines):
+        tokens_re = re.compile(r'"[^"]*"|\S+')
+
+        result = []
+        for line in lines:
+            tokens = tokens_re.findall(line)
+            new_tokens = []
+            for token in tokens:
+                if token.startswith('"') and token.endswith('"'):
+                    inner = token[1:-1]  # content inside quotes
+                    if len(inner) != 1:
+                        print(f'{Fore.RED}Fatal Error. Character "{inner}" not in supported characters (A-Z, Space){Style.RESET_ALL}')
+                        sys.exit()
+                    new_tokens.append(self.char_to_num(inner))
+                else:
+                    new_tokens.append(token)
+            result.append(" ".join(new_tokens))
+        return result
+
     def preprocess_assembly(self):
         lines = self.read_assembly_file()
         lines = self.remove_comments(lines)
@@ -122,9 +142,11 @@ class Simulator:
         labels = self.extract_labels(lines)
         lines = self.replace_labels(lines, labels)
 
+        lines = self.extract_characters(lines)
+
         return lines
 
-    def bin_to_char(self, bin_str):
+    def bin_to_char(self, bin_str: str) -> str:
         bin_to_char = {
             '00001': 'A', '00010': 'B', '00011': 'C', '00100': 'D', '00101': 'E',
             '00110': 'F', '00111': 'G', '01000': 'H', '01001': 'I', '01010': 'J',
@@ -136,17 +158,13 @@ class Simulator:
 
         return bin_to_char[bin_str]
 
-    def char_to_bin(self, char_str):
-        char_to_bin = {
-            'A': '00001', 'B': '00010', 'C': '00011', 'D': '00100', 'E': '00101',
-            'F': '00110', 'G': '00111', 'H': '01000', 'I': '01001', 'J': '01010',
-            'K': '01011', 'L': '01100', 'M': '01101', 'N': '01110', 'O': '01111',
-            'P': '10000', 'Q': '10001', 'R': '10010', 'S': '10011', 'T': '10100',
-            'U': '10101', 'V': '10110', 'W': '10111', 'X': '11000', 'Y': '11001',
-            'Z': '11010', ' ': '00000'
-        }
-
-        return char_to_bin[char_str]
+    def char_to_num(self, char: str) -> str:
+        if char == ' ':
+            return '0'
+        if char.isalpha():
+            return str(ord(char.upper()) - ord('A') + 1)
+        print(f'{Fore.RED}Fatal Error. Character "{char}" not in supported characters (A-Z, Space){Style.RESET_ALL}')
+        sys.exit()
 
     def bin_to_int(self, bin_str):
         return int(bin_str, 2)

@@ -1,0 +1,28 @@
+adi r2 r0 1  # Push buffer bit
+adi r1 r0 "H"
+pt-st r1 p1
+adi r1 r0 "E"
+pt-st r1 p1
+adi r1 r0 "L"
+pt-st r1 p1
+adi r1 r0 "L"
+pt-st r1 p1
+adi r1 r0 "O"
+pt-st r1 p1
+adi r1 r0 " "
+pt-st r1 p1
+adi r1 r0 "W"
+pt-st r1 p1
+adi r1 r0 "O"
+pt-st r1 p1
+adi r1 r0 "R"
+pt-st r1 p1
+adi r1 r0 "L"
+pt-st r1 p1
+adi r1 r0 "D"
+pt-st r1 p1
+
+
+
+pt-st r2 p0  # Push buffer
+hlt

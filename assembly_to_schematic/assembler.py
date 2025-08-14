@@ -1,5 +1,6 @@
 import sys
 from colorama import Fore, Style
+import re
 
 OPCODES = {'NOP': '00000',
            'ADD': '00001',  # ALU Instructions (TYPE RA)
@@ -100,6 +101,35 @@ def replace_labels(lines, labels):
     return result
 
 
+def extract_characters(lines):
+    tokens_re = re.compile(r'"[^"]*"|\S+')
+
+    result = []
+    for line in lines:
+        tokens = tokens_re.findall(line)
+        new_tokens = []
+        for token in tokens:
+            if token.startswith('"') and token.endswith('"'):
+                inner = token[1:-1]  # content inside quotes
+                if len(inner) != 1:
+                    print(f'{Fore.RED}Fatal Error. Character "{inner}" not in supported characters (A-Z, Space){Style.RESET_ALL}')
+                    sys.exit()
+                new_tokens.append(char_to_num(inner))
+            else:
+                new_tokens.append(token)
+        result.append(" ".join(new_tokens))
+    return result
+
+
+def char_to_num(char: str) -> str:
+    if char == ' ':
+        return '0'
+    if char.isalpha():
+        return str(ord(char.upper()) - ord('A') + 1)
+    print(f'{Fore.RED}Fatal Error. Character "{char}" not in supported characters (A-Z, Space){Style.RESET_ALL}')
+    sys.exit()
+
+
 def preprocess_assembly():
     lines = read_assembly_file()
     lines = remove_comments(lines)
@@ -109,6 +139,8 @@ def preprocess_assembly():
 
     labels = extract_labels(lines)
     lines = replace_labels(lines, labels)
+
+    lines = extract_characters(lines)
 
     return lines
 
@@ -154,7 +186,6 @@ def generate_machine_code():
     machine_code = []
     processed_lines = preprocess_assembly()
     for line in processed_lines:
-        # print(line)
         machine_code.append(translate_instruction_to_machine_code(line.upper()))
     write_machine_code(machine_code)
     # print()

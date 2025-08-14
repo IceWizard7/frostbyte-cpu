@@ -29,7 +29,7 @@ Script to start the simulator
 ## How can I create a program?
 
 To create a new program, simply create a new text file (with the .txt extension), and open the file with any text editor. \
-For more information, look into the [ISA](https://docs.google.com/spreadsheets/d/1viN53t4hzh6zwSHijZFirdvYLe23ab2iistlOhTBxLI/edit?usp=sharing).
+My custom assembly language is described in the [ISA](https://docs.google.com/spreadsheets/d/1viN53t4hzh6zwSHijZFirdvYLe23ab2iistlOhTBxLI/edit?usp=sharing). **I recommend reading over it before continuing.**
 
 ### Syntax
 
@@ -37,7 +37,7 @@ Every instruction is written with an opcode followed by the operands. For exampl
 
 ``add r3 r1 r2``
 
-will compute r3 = r1 + r2 (This could be counter-intuitive for some!), as  described in the Description column.
+will compute r3 = r1 + r2 (This could be counter-intuitive for some!), as  described in the Description column in the [ISA](https://docs.google.com/spreadsheets/d/1viN53t4hzh6zwSHijZFirdvYLe23ab2iistlOhTBxLI/edit?usp=sharing).
 
 ### Labels
 
@@ -71,9 +71,12 @@ Opcodes need to be written as their 3-letter mnemonic. \
 Registers need to be written as r0 through r31. \
 Immediates need to be written as decimal. \
 Ports need to be written as p0 through p7. \
-Comments need to be started with a #.
+Comments need to be started with a #. \
+Single characters can be written using double quotes. This will resolve to their character code (1-26: A-Z, 0: Space)
 
 ## How can I run a program?
+
+>Requirements: A python installation (tested with Python 3.11)
 
 - Clone this repository
 - Install all dependencies using
@@ -81,18 +84,20 @@ Comments need to be started with a #.
 
 ### 1. Running a program on the simulator
 
-- Execute the app.py script
+- Run the app.py script
 - Open your browser and connect to ```localhost:5001```
 - Drag and drop the Assembler file in the dashed-outline box
 - Press "Continue"
 
 > Note:
-When re-running app.py, make sure to refresh the web page on the client, to ensure the speed is up-to-date.\
+When re-running app.py, make sure to refresh the web page on the client, to ensure the speed is updated. \
 When changing speeds, it might need 2-3 Seconds to update. To overcome this, you can alternatively press "Stop" and then "Continue". \
 The generated Minecraft schematic files can be found in programs/
 
 ### 2. Running a program on the Minecraft CPU
-> DISCLAIMER: This will be **extremely slow**, as the CPU completes 1 instruction every ~20 at vanilla speeds. See the next section for speedup methods.
+> DISCLAIMER: This will be **extremely slow**, as the CPU completes 1 instruction every ~20 at vanilla speeds. See the next section for speedup methods. \
+Requirements: A copy of Minecraft Java Edition 1.20.4 \
+[WorldEdit (Fabric Mod, Modrinth Download)](https://modrinth.com/plugin/worldedit)
 
 - Execute the app.py script
 - Drag and drop the Assembler file in the dashed-outline box
@@ -101,7 +106,7 @@ The generated Minecraft schematic files can be found in programs/
 - Download the CPU from the world download (Will be added soon)
 - Go to the coordinates XYZ (Will be added soon). You should be standing on a redstone lamp.
 - Run //schem load Program\_\[Time\]
-- Run //paste -s
+- Run //paste -as
 - Run //update
 - Head to the input controller and press the "Run Program" button!
 
@@ -110,7 +115,7 @@ The generated Minecraft schematic files can be found in programs/
 In newer versions of minecraft, you can run
 ``/tick speed [X]`` to increase the tick speed.
 
-Alternatively, you can use [Carpet (Modrinth Download)](https://modrinth.com/mod/carpet)
+Alternatively, you can use [Carpet (Fabric Mod, Modrinth Download)](https://modrinth.com/mod/carpet)
 
 ### Speedup Method #2 - MCHPRS
 > DISCLAIMER: These instructions may not be up-to-date and are for **Windows** only!
@@ -118,7 +123,7 @@ Alternatively, you can use [Carpet (Modrinth Download)](https://modrinth.com/mod
 [MCHPRS](https://github.com/MCHPR/MCHPRS/releases) is a custom server designed to speedup redstone to incredible speed.
 
 - Grab the [latest release](https://github.com/MCHPR/MCHPRS/releases)
-- Run the just-downloaded .exe
+- Run the .exe file in a new folder
 - A server console should launch. Test connecting to the server by joining the multiplayer ip ```localhost```. Also, new folders/files should have also been created. One of these folders should be called "schems"
 - Go back to the cpu in singleplayer. You should have your program already pasted in and updated. Create a WorldEdit selection of the entire computer. Run ``//copy``, and ```//schem save [name]```
 - Transfer the newly created schematic from .minecraft/config/worldedit/schematics to the MCHPRS "schems"-folder
@@ -128,7 +133,7 @@ Alternatively, you can use [Carpet (Modrinth Download)](https://modrinth.com/mod
 
 
 ### Example Programs
-(Will be added soon)
+See [Example Programs](./example_programs).
 
 
 ## License
