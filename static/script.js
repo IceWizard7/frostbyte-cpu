@@ -449,5 +449,4 @@ function isButtonPressed(id) {
 function sendControllerUpdate() {
     const controllerData = getControllerData();
     socket.emit('controller_update', { controller: controllerData });
-    socket.emit('request_update');
 }
