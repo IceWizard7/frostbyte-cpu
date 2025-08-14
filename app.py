@@ -356,7 +356,11 @@ class Simulator:
                 self.screen_y = self.bin_to_int(bin_value[11:16])
                 # print(self.screen_x, self.screen_y)
             case '100':  # Draws the Pixel on store with any value
-                self.screen_buffer[31 - self.screen_y][31 - self.screen_x] = self.screen_d_latch_data
+                try:
+                    self.screen_buffer[31 - self.screen_y][31 - self.screen_x] = self.screen_d_latch_data
+                except IndexError:
+                    self.display_error_message(f'Screen Coordinates: [X: {self.screen_x}, Y: {self.screen_y}] not found. X, Y must be in range [1;31]')
+                    return
             case '101':  # Format: XXXXXXXXXXXXXXX (15), Screen Data Value (1)
                 self.screen_d_latch_data = bin_value[15]
             case '110':  # Sets all Pixels on store with any value
