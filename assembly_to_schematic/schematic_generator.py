@@ -1,6 +1,5 @@
 import mcschematic
 import datetime
-import sys
 from colorama import Fore, Style
 
 xz_locations = []
@@ -25,12 +24,10 @@ def generate_schematic():
 
     if any(len(item) != 32 for item in clean_content):  # Too many / too few characters at one line
         indices = [i for i, item in enumerate(clean_content) if len(item) != 32]
-        print(f'{Fore.RED}Fatal Error. Line wrong length at {indices = }.{Style.RESET_ALL}')
-        sys.exit()
+        raise (ValueError, f'{Fore.RED}Fatal Error. Line wrong length at {indices = }.{Style.RESET_ALL}')
 
     if len(clean_content) > 2048:  # Too many lines
-        print(f'{Fore.RED}Fatal Error. Too many lines. {len(clean_content)} (received) > 2048 (maximum) Lines.{Style.RESET_ALL}')
-        sys.exit()
+        raise (ValueError, f'{Fore.RED}Fatal Error. Too many lines. {len(clean_content)} (received) > 2048 (maximum) Lines.{Style.RESET_ALL}')
 
     for address in range(len(clean_content)):
         for y_pos, bit in enumerate(clean_content[address]):
@@ -39,8 +36,7 @@ def generate_schematic():
             elif bit == '1':
                 block_data = 'minecraft:repeater[facing=west]'  # "1"
             else:
-                print(f'{Fore.RED}Fatal Error. {address = }, {y_pos}: Bit not 1 or 0.{Style.RESET_ALL}')
-                sys.exit()
+                raise (ValueError, f'{Fore.RED}Fatal Error. {address = }, {y_pos}: Bit not 1 or 0.{Style.RESET_ALL}')
             schem.setBlock((xz_locations[address][0], y_locations[y_pos], xz_locations[address][1]), blockData=block_data)
             schem.setBlock((xz_locations[address][0], y_locations[y_pos] - 1, xz_locations[address][1]), blockData='minecraft:magenta_wool')
 

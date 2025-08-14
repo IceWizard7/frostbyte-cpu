@@ -12,7 +12,7 @@ import re
 app = Flask(__name__)
 socketio = SocketIO(app)
 
-SAVE_PATH = 'saved_input.txt'
+SAVE_PATH = 'saved_input-.txt'
 
 
 class Simulator:
@@ -125,8 +125,7 @@ class Simulator:
                 if token.startswith('"') and token.endswith('"'):
                     inner = token[1:-1]  # content inside quotes
                     if len(inner) != 1:
-                        print(f'{Fore.RED}Fatal Error. Character "{inner}" not in supported characters (A-Z, Space){Style.RESET_ALL}')
-                        sys.exit()
+                        raise (ValueError, f'{Fore.RED}Fatal Error. Character "{inner}" not in supported characters (A-Z, Space){Style.RESET_ALL}')
                     new_tokens.append(self.char_to_num(inner))
                 else:
                     new_tokens.append(token)
@@ -164,8 +163,7 @@ class Simulator:
             return '0'
         if char.isalpha():
             return str(ord(char.upper()) - ord('A') + 1)
-        print(f'{Fore.RED}Fatal Error. Character "{char}" not in supported characters (A-Z, Space){Style.RESET_ALL}')
-        sys.exit()
+        raise (ValueError, f'{Fore.RED}Fatal Error. Character "{char}" not in supported characters (A-Z, Space){Style.RESET_ALL}')
 
     def bin_to_int(self, bin_str):
         return int(bin_str, 2)
@@ -197,8 +195,7 @@ class Simulator:
         jump_instruction = False
 
         if operation not in self.OPERATIONS:
-            print(f'{Fore.RED}Fatal Error. Operation {operation} not in Operations {self.OPERATIONS}{Style.RESET_ALL}')
-            sys.exit()
+            raise (ValueError, f'{Fore.RED}Fatal Error. Operation {operation} not in Operations {self.OPERATIONS}{Style.RESET_ALL}')
 
         match operation:
             case 'NOP':
@@ -552,8 +549,7 @@ def ui_index():
         with open(SAVE_PATH, 'r') as file:
             saved_code = file.read()
     except FileNotFoundError:
-        print(f'{Fore.RED}Fatal Error. File "{SAVE_PATH}"was not found. Perhaps create it?{Style.RESET_ALL}')
-        sys.exit()
+        raise (ValueError, f'{Fore.RED}Fatal Error. File "{SAVE_PATH}"was not found. Perhaps create it?{Style.RESET_ALL}')
 
     decimal_info_list = simulator.return_info(emit=False)
 
