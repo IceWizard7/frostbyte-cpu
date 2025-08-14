@@ -102,7 +102,7 @@ Requirements: A copy of Minecraft Java Edition 1.20.4 \
 - Run the app.py script
 - Drag and drop the Assembler file into the dashed-outline box
 - Press "Generate Schematic"
-- Drag and drop the resulting Program\_\[Time\] file into .minecraft/config/worldedit/schematics
+- Move the resulting Program\_\[Time\] file into .minecraft/config/worldedit/schematics
 - Download the CPU from the world download (Will be added soon)
 - Go to the coordinates XYZ (Will be added soon). You should be standing on a redstone lamp.
 - Run //schem load Program\_\[Time\]
