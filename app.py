@@ -11,7 +11,7 @@ import re
 app = Flask(__name__)
 socketio = SocketIO(app)
 
-SAVE_PATH = 'saved_input-.txt'
+SAVE_PATH = 'saved_input.txt'
 
 
 class Simulator:
