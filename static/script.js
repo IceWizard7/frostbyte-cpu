@@ -73,6 +73,7 @@ function performUIUpdate(data) {
     // Update Letters and Number
     document.getElementById('letters-value').textContent = data.letters;
     document.getElementById('number-value').textContent = data.number;
+    document.getElementById('big-number-value').textContent = data.big_number;
 
     // Update Screen Data
     const flatPixels = data.screen_data.flat();

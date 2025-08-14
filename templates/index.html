@@ -21,6 +21,11 @@
                 <span class="value" id="number-value" style="color: white; font-size: 25px; font-weight: bold; text-overflow: unset; width: fit-content; overflow: visible; background-color: #2a2a2a; display: inline-block; padding: 5px 10px; border-radius: 6px; align-items: baseline; margin-left: 0px;">{{ number }}</span>
             </div>
 
+            <button class="sub-collapsible">16-Bit Testing Display</button>
+            <div class="sub-content">
+                <span class="value" id="big-number-value" style="color: white; font-size: 25px; font-weight: bold; text-overflow: unset; width: fit-content; overflow: visible; background-color: #2a2a2a; display: inline-block; padding: 5px 10px; border-radius: 6px; align-items: baseline; margin-left: 0px;">{{ big_number }}</span>
+            </div>
+
                 <div class="lamp-grid">
                     <div style="display: grid; grid-template-columns: repeat(31, 15px); grid-gap: 0.5px;">
                         {% for row in screen_data %}

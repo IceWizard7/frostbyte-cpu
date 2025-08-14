@@ -36,6 +36,7 @@ class Simulator:
         self.letters_buffer = ['_' for _ in range(11)]
         self.letters_pointer = 0
         self.number = '___'
+        self.big_number = '_____'
 
         self.OPERATIONS = ['NOP', 'ADD', 'SUB', 'XOR', 'OR', 'AND', 'RSH', 'ADI', 'ST', 'LD', 'PT-ST', 'PT-LD', 'JMP', 'CAL',
                            'RET', 'BEQ', 'BNE', 'BLT', 'BGT', 'HLT']
@@ -345,6 +346,7 @@ class Simulator:
                     self.letters_pointer = 0
             case '010':  # Format: XXXXXX (6), Sign Mode (1), Enable (1), Number (8)
                 self.number = str(format(self.bin_to_int(bin_value[8:16]), '03d'))
+                self.big_number = str(format(self.bin_to_int(bin_value), '05d'))
 
                 if bin_value[6] == '1':  # Sign Mode
                     self.number = str(format(int(self.number), '03d') if int(self.number) < 128 else format(int(self.number) - 256, '04d'))
@@ -437,7 +439,8 @@ class Simulator:
             self.number,
             self.simulation_running,
             self.bin_to_int(self.program_counter),
-            self.preprocess_assembly()
+            self.preprocess_assembly(),
+            self.big_number
         ]
 
         if emit:
@@ -453,7 +456,8 @@ class Simulator:
                 'number': decimal_info_list[9],
                 'screen_data': decimal_info_list[7],
                 'int_pc': decimal_info_list[11],
-                'preprocessed_assembly': decimal_info_list[12]
+                'preprocessed_assembly': decimal_info_list[12],
+                'big_number': decimal_info_list[13]
             })
 
         return decimal_info_list
@@ -565,6 +569,7 @@ def ui_index():
         screen_data=decimal_info_list[7],
         letters=decimal_info_list[8],
         number=decimal_info_list[9],
+        big_number=decimal_info_list[12],
         preprocessed_assembly=simulator.preprocess_assembly()
     )
 
