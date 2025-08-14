@@ -293,6 +293,7 @@ class Simulator:
                 # str(self.controller['RIGHT']) + str(self.controller['UP']))
 
                 self.controller = {'UP': 0, 'RIGHT': 0, 'DOWN': 0, 'LEFT': 0, 'START': 0, 'SELECT': 0, 'Y': 0, 'X': 0}
+                self.PORTS_READ_ONLY[f'P{address}'] = 16 * '0'
                 # Bit 1 (LSB): D-Pad Up
                 # Bit 2: D-Pad Right
                 # Bit 3: D-Pad Down
