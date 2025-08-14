@@ -346,7 +346,7 @@ class Simulator:
                     self.letters_pointer = 0
             case '010':  # Format: XXXXXX (6), Sign Mode (1), Enable (1), Number (8)
                 self.number = str(format(self.bin_to_int(bin_value[8:16]), '03d'))
-                self.big_number = str(format(self.bin_to_int(bin_value), '05d'))
+                self.big_number = str(format(self.bin_to_int(bin_value), '05d'))  # <- 16 Bit Testing Display
 
                 if bin_value[6] == '1':  # Sign Mode
                     self.number = str(format(int(self.number), '03d') if int(self.number) < 128 else format(int(self.number) - 256, '04d'))
