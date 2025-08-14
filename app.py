@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 from flask_socketio import SocketIO
 import threading
-import sys
 from colorama import Fore, Style
 import time
 import random
