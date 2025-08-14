@@ -552,7 +552,8 @@ def ui_index():
         with open(SAVE_PATH, 'r') as file:
             saved_code = file.read()
     except FileNotFoundError:
-        pass
+        print(f'{Fore.RED}Fatal Error. File "{SAVE_PATH}"was not found. Perhaps create it?{Style.RESET_ALL}')
+        sys.exit()
 
     decimal_info_list = simulator.return_info(emit=False)
 
