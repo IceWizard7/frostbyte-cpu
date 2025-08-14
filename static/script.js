@@ -116,6 +116,14 @@ function performUIUpdate(data) {
     }
 };
 
+
+socket.on('error_message', data => {
+    document.getElementById('error-message').textContent = data.message;
+        setTimeout(() => {
+            document.getElementById('error-message').textContent = '';
+        }, 5000);
+})
+
 document.getElementById('reset-btn').addEventListener('click', () => {
     socket.emit('reset_simulation');
 });

@@ -4,6 +4,9 @@ import threading
 from colorama import Fore, Style
 import time
 import random
+
+from nbtlib import ListIndex
+
 from assembly_to_schematic import generator
 import copy
 import re
@@ -377,7 +380,12 @@ class Simulator:
 
         processed_lines = self.preprocess_assembly()
 
-        current_instruction = processed_lines[self.bin_to_int(self.program_counter)]  # TODO: Might throw list index out of range error when no hlt.
+        try:
+            current_instruction = processed_lines[self.bin_to_int(self.program_counter)]
+        except IndexError:
+            self.display_error_message('No halt at the end of the program')
+            return
+
         self.execute_instruction(current_instruction.upper())
 
         _ = self.return_info(emit=True)
@@ -389,7 +397,8 @@ class Simulator:
 
     def run_simulation(self):
         self.simulation_running = True
-        processed_lines = self.preprocess_assembly()  # TODO: Might throw list index out of range error when no hlt.
+
+        processed_lines = self.preprocess_assembly()
 
         next_time = time.perf_counter()
 
@@ -410,7 +419,12 @@ class Simulator:
             if not self.simulation_running:
                 break  # Exits, if no longer running
 
-            current_instruction = processed_lines[self.bin_to_int(self.program_counter)]
+            try:
+                current_instruction = processed_lines[self.bin_to_int(self.program_counter)]
+            except IndexError:
+                self.display_error_message('No halt at the end of the program')
+                return
+
             self.execute_instruction(current_instruction.upper())
 
             _ = self.return_info(emit=True)
@@ -469,6 +483,9 @@ class Simulator:
         generator.generate()
 
         return '', 204
+
+    def display_error_message(self, message):
+        socketio.emit('error_message', {'message': message})
 
 
 simulator = Simulator(1)  # Standard Speed

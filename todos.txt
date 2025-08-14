@@ -1,3 +1,3 @@
 TODOs:
-- Add CPU Download Link + Coordinates, Example Programs
-- Fix bug with list index out of range error when there's no halt at the end of the program
+- Add CPU Download Link + Coordinates
+- Add more Example Programs
