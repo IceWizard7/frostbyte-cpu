@@ -286,10 +286,11 @@ class Simulator:
 
         match bin_address:
             case '000':
-                value = (8 * '0' + str(self.controller['X']) + str(self.controller['Y']) +
-                         str(self.controller['SELECT']) + str(self.controller['START']) +
-                         str(self.controller['LEFT']) + str(self.controller['DOWN']) +
-                         str(self.controller['RIGHT']) + str(self.controller['UP']))
+                value = self.PORTS_READ_ONLY[f'P{address}']
+                # value = (8 * '0' + str(self.controller['X']) + str(self.controller['Y']) +
+                # str(self.controller['SELECT']) + str(self.controller['START']) +
+                # str(self.controller['LEFT']) + str(self.controller['DOWN']) +
+                # str(self.controller['RIGHT']) + str(self.controller['UP']))
 
                 self.controller = {'UP': 0, 'RIGHT': 0, 'DOWN': 0, 'LEFT': 0, 'START': 0, 'SELECT': 0, 'Y': 0, 'X': 0}
                 # Bit 1 (LSB): D-Pad Up
