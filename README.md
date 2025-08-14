@@ -37,7 +37,7 @@ Every instruction is written with an opcode followed by the operands. For exampl
 
 ``add r3 r1 r2``
 
-will compute r3 = r1 + r2 (This could be counter-intuitive for some!), as  described in the Description column in the [ISA](https://docs.google.com/spreadsheets/d/1viN53t4hzh6zwSHijZFirdvYLe23ab2iistlOhTBxLI/edit?usp=sharing).
+will compute r3 = r1 + r2 (This could be counter-intuitive!), as  described in the Description column in the ISA.
 
 ### Labels
 
