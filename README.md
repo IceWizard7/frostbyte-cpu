@@ -99,8 +99,8 @@ The generated Minecraft schematic files can be found in programs/
 Requirements: A copy of Minecraft Java Edition 1.20.4 \
 [WorldEdit (Fabric Mod, Modrinth Download)](https://modrinth.com/plugin/worldedit)
 
-- Execute the app.py script
-- Drag and drop the Assembler file in the dashed-outline box
+- Run the app.py script
+- Drag and drop the Assembler file into the dashed-outline box
 - Press "Generate Schematic"
 - Drag and drop the resulting Program\_\[Time\] file into .minecraft/config/worldedit/schematics
 - Download the CPU from the world download (Will be added soon)
