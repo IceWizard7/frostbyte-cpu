@@ -3,7 +3,7 @@
 
 ## What's in this repo?
 
-All the supporting code I wrote for my Minecraft CPU.
+All the supporting code I wrote for my Minecraft Redstone Computer.
 
 ### `assembler_to_schematic/`
 
@@ -37,7 +37,7 @@ Every instruction is written with an opcode followed by the operands. For exampl
 
 ``add r3 r1 r2``
 
-will compute r3 = r1 + r2 (This could be counter-intuitive!), as  described in the Description column in the ISA.
+will compute r3 = r1 + r2 (This could be counter-intuitive!), as  described in the Pseudocode column in the ISA.
 
 ### Labels
 
