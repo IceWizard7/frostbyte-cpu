@@ -1,0 +1,19 @@
+adi r1 r0 17 # Y
+adi r2 r0 5 # X
+
+
+# simlauted LSH using add
+add r2 r2 r2 # shift X 5 times
+add r2 r2 r2 # to get it into position
+add r2 r2 r2 # (Bit 1-5: Y)
+add r2 r2 r2 # (Bit 6-10: X)
+add r2 r2 r2
+
+or r1 r1 r2 # OR Y coordinate and shifted X coordinate
+
+adi r4 r0 1 # screen data
+pt-st r1 p3 # X and Y coordinates
+pt-st r4 p5 # screen data
+pt-st r0 p4 # draw pixel
+pt-st r0 p7 # push screen buffer
+hlt
