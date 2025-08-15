@@ -85,7 +85,7 @@ Single characters can be written using double quotes. This will resolve to their
 ### 1. Running a program on the simulator
 
 - Run the app.py script
-- Open your browser and connect to ```localhost:5001```
+- Open your browser and connect to ```localhost:5001``` (I recommend lowering your browser zoom to ~70%, depending on your screen size)
 - Drag and drop the Assembler file in the dashed-outline box
 - Press "Continue"
 
