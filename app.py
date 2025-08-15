@@ -586,7 +586,7 @@ def ui_index():
         screen_data=decimal_info_list[7],
         letters=decimal_info_list[8],
         number=decimal_info_list[9],
-        big_number=decimal_info_list[12],
+        big_number=decimal_info_list[13],
         preprocessed_assembly=simulator.preprocess_assembly()
     )
 
