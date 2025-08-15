@@ -1,4 +1,6 @@
 TODOs:
 - Add CPU Download Link + Coordinates
-- Add more Example Programs
+- Film an Introduction Video of the CPU
+
 - Syntax Highlighting
+- Add more Example Programs
