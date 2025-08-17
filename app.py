@@ -5,8 +5,6 @@ from colorama import Fore, Style
 import time
 import random
 
-from nbtlib import ListIndex
-
 from assembly_to_schematic import generator
 import copy
 import re
