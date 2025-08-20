@@ -325,7 +325,7 @@ class Simulator:
     def port_store(self, address, bin_value):
         bin_address = self.int_to_bin(int(address))[13:16]
 
-        print(f'Port Store, {address = }, {bin_value = }')
+        # print(f'Port Store, {address = }, {bin_value = }')
 
         self.PORTS_WRITE_ONLY[f'P{address}'] = bin_value
 
