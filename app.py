@@ -325,6 +325,8 @@ class Simulator:
     def port_store(self, address, bin_value):
         bin_address = self.int_to_bin(int(address))[13:16]
 
+        print(f'Port Store, {address = }, {bin_value = }')
+
         self.PORTS_WRITE_ONLY[f'P{address}'] = bin_value
 
         match bin_address:
@@ -359,7 +361,7 @@ class Simulator:
                     self.display_error_message(f'Screen Coordinates: [X: {self.screen_x}, Y: {self.screen_y}] not found. X, Y must be in range [1;31]')
                     return
             case '101':  # Format: XXXXXXXXXXXXXXX (15), Screen Data Value (1)
-                self.screen_d_latch_data = bin_value[15]
+                self.screen_d_latch_data = int(bin_value[15])
             case '110':  # Sets all Pixels on store with any value
                 for x in range(31):
                     for y in range(31):
