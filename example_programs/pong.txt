@@ -1,0 +1,332 @@
+# PONG
+# RECOMMENDED SPEDD: ~1750 INSTRUCTIONS/SECOND
+# NOTES:
+# Don't press & release WASD. Optimally, hold them down, to be sure your input get's through.
+
+jmp .main
+
+.init
+adi r1 r0 1
+pt-st r1 p5 # screen data
+
+cal .top-line
+cal .bottom-line
+# pt-st r0 p7 # update screen buffer
+cal .pong-text
+
+# reset registers
+adi r1 r0 0
+adi r2 r0 1
+adi r3 r0 0
+adi r4 r0 0
+adi r5 r0 0
+# register assignments:
+# r1 = ball momentum. bit 1-5 is Y momentum, bit 6-10 is x momentum
+# r2 = fixed 1
+# r3 = X left border
+# r4 = X right border
+# r5 = Y top border
+# r6 = Y bottom border
+# r7 = ball X
+# r8 = ball Y
+# r9 = bin(11111) mask
+# r10 = ball X momentum
+# r11 = ball Y momentum
+# r12 = X step size
+# r13 = Y step size
+# r14 = user-dash position
+# r15 = reserved for I/O
+# r16 = reserved for I/O
+# r17 = dash-maximum
+# r18 = dash-minimum
+# r19 = reserverd for I/O
+# r20 = reserved for I/O
+# r21, r22 = reserved for collision detection
+# r31 = ball position
+adi r3 r0 30
+adi r4 r0 1
+adi r5 r0 24
+adi r6 r0 8
+adi r9 r0 31
+
+adi r10 r0 65504 # momentum = -1
+adi r11 r0 65535 # momentum = -1
+
+adi r12 r0 32
+adi r13 r0 1
+
+adi r14 r0 16
+
+adi r17 r0 22
+adi r18 r0 6
+
+adi r31 r0 528 # current ball XY position, X = 16, Y = 16
+ret # end of init
+
+.drawing-loop
+pt-st r4 p3
+pt-st r0 p4
+# pt-st r0 p7 # update screen buffer
+
+add r4 r4 r5 # add step size
+sub r0 r4 r3 # compare
+blt .drawing-loop # r4 < r3
+beq .drawing-loop # r4 = r3
+ret
+
+.bottom-line
+adi r5 r0 32 # inc X value
+adi r2 r0 39 # starting XY bottom line, y = 7
+adi r3 r0 967 # ending XY bottom line
+adi r4 r2 0 # current XY
+
+cal .drawing-loop
+ret
+
+.top-line
+adi r5 r0 32 # inc X value
+adi r2 r0 57 # starting XY top line, y = 25
+adi r3 r0 985 # ending XY top line
+adi r4 r2 0 # current XY
+
+cal .drawing-loop
+ret
+
+.pong-text
+adi r4 r0 "P"
+pt-st r4 p1
+adi r4 r0 "O"
+pt-st r4 p1
+adi r4 r0 "N"
+pt-st r4 p1
+adi r4 r0 "G"
+pt-st r4 p1
+pt-st r1 p0
+ret
+
+# end of init function.
+
+.calculate-momentum
+adi r7 r31 0
+rsh r7 r7
+rsh r7 r7
+rsh r7 r7
+rsh r7 r7
+rsh r7 r7
+# r7 = ball X
+
+and r8 r31 r9
+# r8 = ball Y
+
+jmp .x
+
+# X logic
+.x
+sub r0 r7 r4
+beq .inc-x
+
+sub r0 r7 r3
+beq .dec-x
+jmp .y
+
+.inc-x
+adi r10 r0 0
+add r10 r0 r12
+jmp .y
+
+.dec-x
+adi r10 r0 0
+sub r10 r0 r12
+jmp .y
+
+# Y logic
+.y
+sub r0 r8 r6
+beq .inc-y
+
+sub r0 r8 r5
+beq .dec-y
+jmp .final-momentum
+
+.inc-y
+adi r11 r0 0
+add r11 r0 r13
+jmp .final-momentum
+
+.dec-y
+adi r11 r0 0
+sub r11 r0 r13
+jmp .final-momentum
+
+.final-momentum
+
+add r7 r7 r7
+add r7 r7 r7
+add r7 r7 r7
+add r7 r7 r7
+add r7 r7 r7
+
+add r7 r7 r10 # X
+add r8 r8 r11 # Y
+
+# ...
+# if X (r7) = 30:
+# subtract ball Y (r8) - user dash Y (r14)
+# if that is NOT 0, 1, 2, 3 or 4:
+# .game-over
+# else:
+# return
+
+# r21, r22 = reserved for collision detection
+
+# check if X == 30 (r7 is shifted), so check 960
+adi r21 r0 960
+sub r0 r7 r21
+bne .calculate-momentum-return
+
+# subtract ball Y (r8) - user dash Y (r14) into r21
+sub r21 r8 r14
+
+# if that is NOT 0, 1, 2, 3 or 4...
+adi r22 r0 0
+sub r0 r21 r22
+beq .calculate-momentum-return
+
+adi r22 r0 1
+sub r0 r21 r22
+beq .calculate-momentum-return
+
+adi r22 r0 2
+sub r0 r21 r22
+beq .calculate-momentum-return
+
+adi r22 r0 3
+sub r0 r21 r22
+beq .calculate-momentum-return
+
+adi r22 r0 4
+sub r0 r21 r22
+beq .calculate-momentum-return
+
+jmp .game-over
+
+.calculate-momentum-return
+ret
+
+.user-dash
+# r14 = user-dash position
+# r15 = reserved for I/O
+# r16 = reserved for I/O
+# r19 = reserverd for I/O
+#
+# inc / dec r14 based on
+# floor with y min & max
+# draw it on the screen
+pt-ld r15 p0
+adi r16 r0 1
+and r16 r15 r16
+sub r0 r16 r0
+bne .inc-user-dash
+
+adi r16 r0 4
+and r16 r15 r16
+sub r0 r16 r0
+bne .dec-user-dash
+
+jmp .draw-user-dash
+
+.inc-user-dash
+add r14 r14 r13 # Y-step-size
+jmp .floor-user-dash
+.dec-user-dash
+sub r14 r14 r13 # Y-step-size
+
+.floor-user-dash
+# r17 = dash-maximum
+# r18 = dash-minimum
+
+sub r0 r14 r17
+beq .dec-user-dash2
+
+sub r0 r14 r18
+beq .inc-user-dash2
+jmp .draw-user-dash
+
+.inc-user-dash2
+add r14 r14 r13 # Y-step-size
+jmp .draw-user-dash
+
+.dec-user-dash2
+sub r14 r14 r13 # Y-step-size
+
+.draw-user-dash
+# r14 dash height, draw 5 up from there
+# r19 = reserverd for I/O, count that up
+# r20 = reserved for I/O, screen clearing
+
+# clear entire X = 31 line
+pt-st r0 p5 # screen-data = 0
+
+adi r19 r0 993
+adi r20 r0 1023
+
+.clear-left-line
+pt-st r19 p3
+pt-st r0 p4
+
+add r19 r19 r13
+sub r0 r20 r19
+bgt .clear-left-line# r20 > r19
+beq .clear-left-line # r20 == r19
+
+pt-st r2 p5 # screen-data = 1
+adi r19 r0 992 # base X value
+
+or r19 r19 r14
+pt-st r19 p3
+pt-st r0 p4
+
+adi r19 r19 1
+pt-st r19 p3
+pt-st r0 p4
+
+adi r19 r19 1
+pt-st r19 p3
+pt-st r0 p4
+
+adi r19 r19 1
+pt-st r19 p3
+pt-st r0 p4
+
+adi r19 r19 1
+pt-st r19 p3
+pt-st r0 p4
+
+ret
+
+.move-ball
+cal .user-dash
+cal .calculate-momentum
+# r10 = X momentum
+# r11 = Y momentum
+pt-st r2 p5 # screen data = 1
+# calculate r31 based on r7 and r8
+or r31 r7 r8
+pt-st r31 p3
+pt-st r0 p4 # draw pixel
+pt-st r0 p7 # update buffer
+
+pt-st r0 p5 # screen data = 0
+pt-st r31 p3
+pt-st r0 p4 # clear pixel
+ret
+
+.main
+cal .init
+.loop
+cal .move-ball
+jmp .loop
+
+.game-over
+# game over logic
+hlt
