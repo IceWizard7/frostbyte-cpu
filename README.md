@@ -85,13 +85,16 @@ Single characters can be written using double quotes. This will resolve to their
 ### 1. Running a program on the simulator
 
 - Run the app.py script
-- Open your browser and connect to ```localhost:5001``` (I recommend lowering your browser zoom to ~70%, depending on your screen size)
+- Open your browser and connect to ```localhost:5001```
 - Drag and drop the Assembler file in the dashed-outline box
 - Press "Continue"
 
 > Note:
+If you get a "Permission denied" (or similar) error when running app.py, consider changing the port (standard = 5001) in the last line of app.py \
 When re-running app.py, make sure to refresh the web page on the client, to ensure the speed is updated. \
 When changing speeds, it might need 2-3 Seconds to update. To overcome this, you can alternatively press "Stop" and then "Continue". \
+I recommend lowering your browser zoom to ~70%, depending on your screen size \
+Your Browser might have issues when running programs at insane speeds (on my machine, bugs start happening at ~1700 Instructions / Second) \
 The generated Minecraft schematic files can be found in programs/
 
 ### 2. Running a program on the Minecraft CPU
