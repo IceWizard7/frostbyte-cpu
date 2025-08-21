@@ -307,7 +307,11 @@ class Simulator:
                 # str(self.controller['LEFT']) + str(self.controller['DOWN']) +
                 # str(self.controller['RIGHT']) + str(self.controller['UP']))
 
-                self.controller = {'UP': 0, 'RIGHT': 0, 'DOWN': 0, 'LEFT': 0, 'START': 0, 'SELECT': 0, 'Y': 0, 'X': 0}
+                self.controller = {'UP': self.controller['UP'],
+                                   'RIGHT': self.controller['RIGHT'],
+                                   'DOWN': self.controller['DOWN'],
+                                   'LEFT': self.controller['LEFT'],
+                                   'START': 0, 'SELECT': 0, 'Y': 0, 'X': 0}
                 self.PORTS_READ_ONLY[f'P{address}'] = 16 * '0'
                 # Bit 1 (LSB): D-Pad Up
                 # Bit 2: D-Pad Right
@@ -539,7 +543,7 @@ def handle_request_update():
 
 @socketio.on('controller_update')
 def handle_controller_update(data):
-    print(f'controller update: {data}')
+    # print(f'controller update: {data}')
     controller_data = data.get('controller')
     # print(f'frontend: {controller_data} sent this.')
     simulator.controller = {'UP': controller_data['UP'], 'RIGHT': controller_data['RIGHT'],
