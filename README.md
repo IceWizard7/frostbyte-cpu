@@ -87,7 +87,7 @@ Single characters can be written using double quotes. This will resolve to their
 - Run the app.py script
 - Open your browser and connect to ```localhost:5001```
 - Drag and drop the Assembler file in the dashed-outline box
-- Press "Continue"
+- Press "Continue" to start the program
 
 > Note:
 If you get a "Permission denied" (or similar) error when running app.py, consider changing the port (standard = 5001) in the last line of app.py \
