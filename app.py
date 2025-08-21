@@ -482,10 +482,15 @@ class Simulator:
         with open('assembly_to_schematic/assembly.txt', 'w') as file:
             for line in code:
                 file.write(line)
+        try:
+            generator.generate()
+        except Exception:
+            self.display_error_message('Schematic generation failed')
+            return '', 500 # Internal Server Error
+        else:
+            socketio.emit('generate_schematic_successful')
 
-        generator.generate()
-
-        return '', 204
+        return '', 204 # No Content
 
     def display_error_message(self, message):
         socketio.emit('error_message', {'message': message})
@@ -534,6 +539,7 @@ def handle_request_update():
 
 @socketio.on('controller_update')
 def handle_controller_update(data):
+    print(f'controller update: {data}')
     controller_data = data.get('controller')
     # print(f'frontend: {controller_data} sent this.')
     simulator.controller = {'UP': controller_data['UP'], 'RIGHT': controller_data['RIGHT'],
