@@ -603,6 +603,8 @@ def ui_index():
 @app.route('/upload', methods=['POST'])
 def upload():
     file = request.files['file']
+    content = ""
+
     if file and file.filename.endswith('.txt'):
         content = file.read().decode('utf-8')
         content = content.replace('\r\n', '\n').rstrip()
@@ -611,7 +613,9 @@ def upload():
 
     simulator.reset_simulation()
 
-    return redirect(url_for('ui_index'))
+    socketio.emit('update_code', {'content': content})
+
+    return '', 204
 
 
 if __name__ == '__main__':

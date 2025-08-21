@@ -131,6 +131,11 @@ socket.on('generate_schematic_successful', data => {
         }, 750);
 })
 
+socket.on('update_code', (data) => {
+    document.getElementById("codeInput").value = data.content;
+});
+
+
 
 document.getElementById('reset-btn').addEventListener('click', () => {
     socket.emit('reset_simulation');
