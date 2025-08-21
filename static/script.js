@@ -124,6 +124,14 @@ socket.on('error_message', data => {
         }, 5000);
 })
 
+socket.on('generate_schematic_successful', data => {
+    document.getElementById('gen-schem-status').textContent = 'Generated Schematic successfully!';
+        setTimeout(() => {
+            document.getElementById('gen-schem-status').textContent = '';
+        }, 750);
+})
+
+
 document.getElementById('reset-btn').addEventListener('click', () => {
     socket.emit('reset_simulation');
 });
@@ -141,12 +149,7 @@ document.getElementById('continue-btn').addEventListener('click', () => {
 });
 
 document.getElementById('gen-schem-btn').addEventListener('click', () => {
-    socket.emit('generate_schematic', (response) => {
-        document.getElementById('gen-schem-status').textContent = 'Generated Schematic successfully!';
-        setTimeout(() => {
-            document.getElementById('gen-schem-status').textContent = '';
-        }, 750);
-    });
+    socket.emit('generate_schematic');
 });
 
 // On website Load, Request an Update
@@ -318,13 +321,7 @@ document.addEventListener('keydown', (event) => {
             break;
 
         case 'g':
-            socket.emit('generate_schematic', () => {
-                const status = document.getElementById('gen-schem-status');
-                if (status) {
-                    status.textContent = 'Generated Schematic successfully!';
-                    setTimeout(() => status.textContent = '', 750);
-                }
-            });
+            socket.emit('generate_schematic');
             visuallyPress('gen-schem-btn');
             break;
     }

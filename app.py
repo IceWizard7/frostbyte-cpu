@@ -301,18 +301,18 @@ class Simulator:
 
         match bin_address:
             case '000':
-                value = self.PORTS_READ_ONLY[f'P{address}']
-                # value = (8 * '0' + str(self.controller['X']) + str(self.controller['Y']) +
-                # str(self.controller['SELECT']) + str(self.controller['START']) +
-                # str(self.controller['LEFT']) + str(self.controller['DOWN']) +
-                # str(self.controller['RIGHT']) + str(self.controller['UP']))
-
                 self.controller = {'UP': self.controller['UP'],
                                    'RIGHT': self.controller['RIGHT'],
                                    'DOWN': self.controller['DOWN'],
                                    'LEFT': self.controller['LEFT'],
                                    'START': 0, 'SELECT': 0, 'Y': 0, 'X': 0}
-                self.PORTS_READ_ONLY[f'P{address}'] = 16 * '0'
+
+                value = (8 * '0' + str(simulator.controller['X']) + str(simulator.controller['Y']) +
+                         str(simulator.controller['SELECT']) + str(simulator.controller['START']) +
+                         str(simulator.controller['LEFT']) + str(simulator.controller['DOWN']) +
+                         str(simulator.controller['RIGHT']) + str(simulator.controller['UP']))
+
+                self.PORTS_READ_ONLY[f'P{address}'] = value
                 # Bit 1 (LSB): D-Pad Up
                 # Bit 2: D-Pad Right
                 # Bit 3: D-Pad Down
