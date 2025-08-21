@@ -1,5 +1,5 @@
 # PONG
-# RECOMMENDED SPEDD: ~1750 INSTRUCTIONS/SECOND
+# RECOMMENDED SPEED: ~1750 INSTRUCTIONS/SECOND
 # NOTES:
 # Don't press & release WASD. Optimally, hold them down, to be sure your input get's through.
 
@@ -329,4 +329,28 @@ jmp .loop
 
 .game-over
 # game over logic
+# free registers: 23-30
+adi r23 r0 2
+pt-st r23 p0
+adi r23 r0 "G"
+pt-st r23 p1
+adi r23 r0 "A"
+pt-st r23 p1
+adi r23 r0 "M"
+pt-st r23 p1
+adi r23 r0 "E"
+pt-st r23 p1
+adi r23 r0 " "
+pt-st r23 p1
+adi r23 r0 "O"
+pt-st r23 p1
+adi r23 r0 "V"
+pt-st r23 p1
+adi r23 r0 "E"
+pt-st r23 p1
+adi r23 r0 "R"
+pt-st r23 p1
+adi r23 r0 1
+pt-st r23 p0
+
 hlt
