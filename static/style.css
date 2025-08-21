@@ -287,6 +287,6 @@ input[type="range"]::-moz-range-thumb {
 }
 
 .controls-layout button {
-    width: 120px;
+    width: 150px;
     height: 50px;
 }
