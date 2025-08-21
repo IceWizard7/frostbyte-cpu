@@ -1,0 +1,79 @@
+# Bresenham’s Line Drawing Algorithm
+# Assumes: 0 <= dy <= dx, and X0 <= X1
+
+jmp .main
+
+.init
+# inputs
+adi r1 r0  2   # X0
+adi r2 r0  5   # Y0
+adi r3 r0 27   # X1
+adi r4 r0 17   # Y1
+
+# clear screen
+adi r10 r0 0
+pt-st r10 p5   # screen data = 0
+pt-st r0  p6   # set all
+pt-st r0  p7   # push buffer
+
+# dx = X1 - X0
+sub r5 r3 r1
+# dy = Y1 - Y0
+sub r6 r4 r2
+
+# r8 = two_dy = 2*dy
+add r8 r6 r6
+
+# r9 = 2*(dy - dx)
+sub r9 r6 r5
+add r9 r9 r9
+
+# D = 2*dy - dx
+sub r7 r8 r5
+
+ret
+
+# main loop
+.loop
+# stop if X > X1
+sub r11 r3 r1
+blt .done
+
+# plot(x,y)
+# compute XY = (X << 5) | Y
+adi r12 r1 0    # r12 = X
+add r12 r12 r12 # *2
+add r12 r12 r12 # *4
+add r12 r12 r12 # *8
+add r12 r12 r12 # *16
+add r12 r12 r12 # *32
+add r12 r12 r2  # add Y
+
+pt-st r12 p3
+adi r13 r0 1
+pt-st r13 p5
+pt-st r0  p4
+pt-st r0  p7
+
+# test D < 0
+sub r14 r7 r0
+blt .d_lt_zero
+
+# D >= 0 path
+adi r2 r2 1
+add r7 r7 r9
+jmp .after_update
+
+.d_lt_zero
+add r7 r7 r8
+
+.after_update
+adi r1 r1 1
+jmp .loop
+
+.done
+hlt
+
+.main
+cal .init
+jmp .loop
