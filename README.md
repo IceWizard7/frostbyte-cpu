@@ -91,6 +91,7 @@ Single characters can be written using double quotes. This will resolve to their
 
 > Note:
 If you get a "Permission denied" (or similar) error when running app.py, consider changing the port (standard = 5001) in the last line of app.py \
+If the simulator ever breaks and just throws errors in the browser, clear the saved_input.txt file \
 When re-running app.py, make sure to refresh the web page on the client, to ensure the speed is updated. \
 When changing speeds, it might need 2-3 Seconds to update. To overcome this, you can alternatively press "Stop" and then "Continue". \
 I recommend lowering your browser zoom to ~70%, depending on your screen size \
