@@ -1,6 +1,8 @@
 # Before trying to create or run a program, read this whole page!
 > DISCLAIMER: Basic Assembly / Programming Skills are assumed
 
+Showcase Video: https://www.youtube.com/watch?v=eOQr7ShDz9Q
+
 ## What's in this repo?
 
 All the supporting code I wrote for my Minecraft Redstone Computer.
@@ -107,8 +109,8 @@ Requirements: A copy of Minecraft Java Edition 1.20.4 \
 - Drag and drop the Assembler file into the dashed-outline box
 - Press "Generate Schematic"
 - Move the resulting Program\_\[Time\] file into .minecraft/config/worldedit/schematics
-- Download the CPU from the world download (Will be added soon)
-- Go to the coordinates XYZ (Will be added soon). You should be standing on a redstone lamp.
+- Download the CPU from the [world download](https://www.planetminecraft.com/project/frostbyte-a-16-bit-minecraft-cpu-with-just-redstone/)
+- Go to the coordinates 64 152 389. You should be standing on a redstone lamp.
 - Run //schem load Program\_\[Time\]
 - Run //paste -as
 - Run //update
