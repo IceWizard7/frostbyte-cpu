@@ -1,7 +1,7 @@
 # Before trying to create or run a program, read this whole page!
 > DISCLAIMER: Basic Assembly / Programming Skills are assumed
 
-Showcase Video: https://www.youtube.com/watch?v=eOQr7ShDz9Q
+[![Showcase Video](https://img.youtube.com/vi/eOQr7ShDz9Q/0.jpg)](https://www.youtube.com/watch?v=eOQr7ShDz9Q)
 
 ## What's in this repo?
 
