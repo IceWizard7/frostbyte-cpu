@@ -2,6 +2,7 @@
 > DISCLAIMER: Basic Assembly / Programming Skills are assumed
 
 [![Showcase Video](https://img.youtube.com/vi/eOQr7ShDz9Q/0.jpg)](https://www.youtube.com/watch?v=eOQr7ShDz9Q)
+> If you are curious about the CPU Specifications, they can be found [here](https://docs.google.com/spreadsheets/d/1viN53t4hzh6zwSHijZFirdvYLe23ab2iistlOhTBxLI/edit?gid=0#gid=0&range=AL1) (Cell AL1), along with the ISA.
 
 ## What's in this repo?
 
@@ -31,7 +32,7 @@ Script to start the simulator
 ## How can I create a program?
 
 To create a new program, simply create a new text file (with the .txt extension), and open the file with any text editor. \
-My custom assembly language is described in the [ISA](https://docs.google.com/spreadsheets/d/1viN53t4hzh6zwSHijZFirdvYLe23ab2iistlOhTBxLI/edit?usp=sharing). **I recommend reading over it before continuing.**
+My custom assembly language is described in the [ISA](https://docs.google.com/spreadsheets/d/1viN53t4hzh6zwSHijZFirdvYLe23ab2iistlOhTBxLI/edit?gid=0#gid=0). **I recommend reading over it before continuing.**
 
 ### Syntax
 
@@ -75,6 +76,10 @@ Immediates need to be written as decimal. \
 Ports need to be written as p0 through p7. \
 Comments need to be started with a #. \
 Single characters can be written using double quotes. This will resolve to their character code (1-26: A-Z, 0: Space)
+
+### I/O
+
+All the I/O devices and mappings can be found [here](https://docs.google.com/spreadsheets/d/1viN53t4hzh6zwSHijZFirdvYLe23ab2iistlOhTBxLI/edit?gid=0#gid=0&range=AN1) (Cell AN1)
 
 ## How can I run a program?
 
