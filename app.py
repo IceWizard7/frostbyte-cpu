@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request
 from flask_socketio import SocketIO
 import threading
-from colorama import Fore, Style
 import time
 import random
 from assembly_to_schematic import generator
