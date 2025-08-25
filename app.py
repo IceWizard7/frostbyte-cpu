@@ -43,9 +43,14 @@ class Simulator:
         self.speed = speed
         self.controller = {'UP': 0, 'RIGHT': 0, 'DOWN': 0, 'LEFT': 0, 'START': 0, 'SELECT': 0, 'Y': 0, 'X': 0}
 
-    def read_assembly_file(self, filename='saved_input.txt'):
-        with open(filename, 'r') as file:
-            return [line.strip() for line in file if line.strip()]
+    def read_assembly_file(self):
+        try:
+            with open(SAVE_PATH, 'r') as file:
+                return [line.strip() for line in file if line.strip()]
+        except FileNotFoundError:
+            self.display_error_message(f'Fatal Error. File "{SAVE_PATH}"was not found. Perhaps create it?')
+            return []
+
 
     def remove_comments(self, lines):
         return [line.split('#')[0].strip() for line in lines if line.split('#')[0].strip()]
@@ -124,8 +129,10 @@ class Simulator:
                 if token.startswith('"') and token.endswith('"'):
                     inner = token[1:-1]  # content inside quotes
                     if len(inner) != 1:
-                        raise (ValueError, f'{Fore.RED}Fatal Error. Character "{inner}" not in supported characters (A-Z, Space){Style.RESET_ALL}')
-                    new_tokens.append(self.char_to_num(inner))
+                        self.display_error_message(f'Fatal Error. Character "{inner}" not in supported characters (A-Z, Space)')
+                        return []
+                    if self.char_to_num(inner) is not '':
+                        new_tokens.append(self.char_to_num(inner))
                 else:
                     new_tokens.append(token)
             result.append(" ".join(new_tokens))
@@ -133,6 +140,10 @@ class Simulator:
 
     def preprocess_assembly(self):
         lines = self.read_assembly_file()
+
+        if lines is []:
+            return []
+
         lines = self.remove_comments(lines)
 
         definitions = self.extract_definitions(lines)
@@ -162,7 +173,8 @@ class Simulator:
             return '0'
         if char.isalpha():
             return str(ord(char.upper()) - ord('A') + 1)
-        raise (ValueError, f'{Fore.RED}Fatal Error. Character "{char}" not in supported characters (A-Z, Space){Style.RESET_ALL}')
+        self.display_error_message(f'Fatal Error. Character "{char}" not in supported characters (A-Z, Space)')
+        return '' # represent error
 
     def bin_to_int(self, bin_str):
         return int(bin_str, 2)
@@ -194,7 +206,8 @@ class Simulator:
         jump_instruction = False
 
         if operation not in self.OPERATIONS:
-            raise (ValueError, f'{Fore.RED}Fatal Error. Operation {operation} not in Operations {self.OPERATIONS}{Style.RESET_ALL}')
+            self.display_error_message(f'Fatal Error. Operation {operation} not in Operations {self.OPERATIONS}')
+            return
 
         match operation:
             case 'NOP':
@@ -480,8 +493,11 @@ class Simulator:
         return decimal_info_list
 
     def generate_schematic(self):
-        with open(SAVE_PATH, 'r') as file:
-            code = file.read()
+        try:
+            with open(SAVE_PATH, 'r') as file:
+                code = file.read()
+        except FileNotFoundError:
+            self.display_error_message(f'Fatal Error. File "{SAVE_PATH}"was not found. Perhaps create it?')
 
         with open('assembly_to_schematic/assembly.txt', 'w') as file:
             for line in code:
@@ -578,7 +594,7 @@ def ui_index():
         with open(SAVE_PATH, 'r') as file:
             saved_code = file.read()
     except FileNotFoundError:
-        raise (ValueError, f'{Fore.RED}Fatal Error. File "{SAVE_PATH}"was not found. Perhaps create it?{Style.RESET_ALL}')
+        simulator.display_error_message(f'Fatal Error. File "{SAVE_PATH}"was not found. Perhaps create it?')
 
     decimal_info_list = simulator.return_info(emit=False)
 
