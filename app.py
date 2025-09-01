@@ -130,7 +130,7 @@ class Simulator:
                     if len(inner) != 1:
                         self.display_error_message(f'Fatal Error. Character "{inner}" not in supported characters (A-Z, Space)')
                         return []
-                    if self.char_to_num(inner) is not '':
+                    if self.char_to_num(inner) != '':
                         new_tokens.append(self.char_to_num(inner))
                 else:
                     new_tokens.append(token)
