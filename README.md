@@ -106,7 +106,7 @@ Your Browser might have issues when running programs at insane speeds (on my mac
 The generated Minecraft schematic files can be found in programs/
 
 ### 2. Running a program on the Minecraft CPU
-> DISCLAIMER: This will be **extremely slow**, as the CPU completes 1 instruction every ~20 at vanilla speeds. See the next section for speedup methods. \
+> DISCLAIMER: This will be **extremely slow**, as the CPU completes 1 instruction every ~20 seconds at vanilla speeds. See the next section for speedup methods. \
 Requirements: A copy of Minecraft Java Edition 1.20.4 \
 [WorldEdit (Fabric Mod, Modrinth Download)](https://modrinth.com/plugin/worldedit)
 
