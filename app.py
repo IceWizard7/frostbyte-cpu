@@ -14,7 +14,7 @@ socketio = SocketIO(app)
 SAVE_PATH: str = 'saved_input.txt'
 PORT: int = 5001
 
-EXPERIMENTAL_GUI: bool = True
+EXPERIMENTAL_GUI: bool = False
 ZOOM_LEVEL_GUI: str = '67%'
 
 

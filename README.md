@@ -96,17 +96,39 @@ All the I/O devices and mappings can be found [here](https://docs.google.com/spr
 - Drag and drop the Assembler file in the dashed-outline box
 - Press "Continue" to start the program
 
-> Note:
-If you get a "Permission denied" (or similar) error when running app.py, consider changing the port (standard = 5001) in line 14 of app.py (PORT = 5001) \
+#### (NEW) Experimental GUI: \
+You can enable / disable the GUI (instead of using the browser) by changing
+```python
+EXPERIMENTAL_GUI: bool = True
+```
+to:
+```python
+EXPERIMENTAL_GUI: bool = False
+```
+
+Optionally, you can also adjust the zoom level to better fit your device by changing:
+```python
+ZOOM_LEVEL_GUI: str = '67%'
+```
+
+to your preferred value
+
+> Notes: \
+If you get a "Permission denied" (or similar) error when running app.py, consider changing the port at the beginning of app.py (PORT = 5001) \
+\
 If the simulator ever breaks and just throws errors in the browser, clear the saved_input.txt file \
-When re-running app.py, make sure to refresh the web page on the client, to ensure the speed is updated. \
+\
+When re-running app.py, make sure to refresh the web page on the client, to ensure the speed is updated \
 When changing speeds, it might need 2-3 Seconds to update. To overcome this, you can alternatively press "Stop" and then "Continue". \
+\
 I recommend lowering your browser zoom to ~70%, depending on your screen size \
 Your Browser might have issues when running programs at insane speeds (on my machine, bugs start happening at ~1700 Instructions / Second) \
+\
 The generated Minecraft schematic files can be found in programs/
 
 ### 2. Running a program on the Minecraft CPU
-> DISCLAIMER: This will be **extremely slow**, as the CPU completes 1 instruction every ~20 seconds at vanilla speeds. See the next section for speedup methods. \
+> Notes: \
+This will be **extremely slow**, as the CPU completes 1 instruction every ~20 seconds at vanilla speeds. See the next section for speedup methods. \
 Requirements: A copy of Minecraft Java Edition 1.20.4 \
 [WorldEdit (Fabric Mod, Modrinth Download)](https://modrinth.com/plugin/worldedit)
 
