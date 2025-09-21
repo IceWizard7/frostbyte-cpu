@@ -14,35 +14,35 @@ SAVE_PATH = 'saved_input.txt'
 
 
 class Simulator:
-    def __init__(self, speed):
-        self.REGISTERS = {f'R{i}': 16 * '0' for i in range(32)}
-        self.DATA_MEMORY_ADDRESSES = {f'D{i}': 16 * '0' for i in range(256)}
-        self.PORTS_WRITE_ONLY = {f'P{i}': 16 * '0' for i in range(8)}
-        self.PORTS_READ_ONLY = {f'P{i}': 16 * '0' for i in range(8)}
-        self.PORTS_READ_ONLY['P1'] = format(random.randint(0, 65535), '016b')  # Start with random 16-bit Number
-        self.ALU_FLAGS = {'BEQ': False, 'BNE': False, 'BLT': False, 'BGT': False}
-        self.call_stack = []
-        self.simulation_running = False
-        self.program_counter = 16 * '0'  # To not re-write int_to_bin & bin_to_int, we consider this a 16-bit Number. Doesn't change anything.
+    def __init__(self, speed: int):
+        self.REGISTERS: dict[str, str] = {f'R{i}': 16 * '0' for i in range(32)}
+        self.DATA_MEMORY_ADDRESSES: dict[str, str] = {f'D{i}': 16 * '0' for i in range(256)}
+        self.PORTS_WRITE_ONLY: dict[str, str] = {f'P{i}': 16 * '0' for i in range(8)}
+        self.PORTS_READ_ONLY: dict[str, str] = {f'P{i}': 16 * '0' for i in range(8)}
+        self.PORTS_READ_ONLY['P1']: dict[str, str] = format(random.randint(0, 65535), '016b')  # Start with random 16-bit Number
+        self.ALU_FLAGS: dict[str, bool] = {'BEQ': False, 'BNE': False, 'BLT': False, 'BGT': False}
+        self.call_stack: list[str] = []
+        self.simulation_running: bool = False
+        self.program_counter: str = 16 * '0'  # To not re-write int_to_bin & bin_to_int, we consider this a 16-bit Number. Doesn't change anything.
 
         self.screen_data: list[list[int]] = [[0 for _ in range(31)] for _ in range(31)]
         self.screen_buffer: list[list[int]] = [[0 for _ in range(31)] for _ in range(31)]
-        self.screen_d_latch_data = 0
-        self.screen_x = 0
-        self.screen_y = 0
-        self.letters_data = ['_' for _ in range(11)]
-        self.letters_buffer = ['_' for _ in range(11)]
-        self.letters_pointer = 0
-        self.number = '___'
-        self.big_number = '_____'
+        self.screen_d_latch_data: int = 0
+        self.screen_x: int = 0
+        self.screen_y: int = 0
+        self.letters_data: list[str] = ['_' for _ in range(11)]
+        self.letters_buffer: list[str] = ['_' for _ in range(11)]
+        self.letters_pointer: int = 0
+        self.number: str = '___'
+        self.big_number: str = '_____'
 
-        self.OPERATIONS = ['NOP', 'ADD', 'SUB', 'XOR', 'OR', 'AND', 'RSH', 'ADI', 'ST', 'LD', 'PT-ST', 'PT-LD', 'JMP', 'CAL',
+        self.OPERATIONS: list[str] = ['NOP', 'ADD', 'SUB', 'XOR', 'OR', 'AND', 'RSH', 'ADI', 'ST', 'LD', 'PT-ST', 'PT-LD', 'JMP', 'CAL',
                            'RET', 'BEQ', 'BNE', 'BLT', 'BGT', 'HLT']
 
-        self.speed = speed
-        self.controller = {'UP': 0, 'RIGHT': 0, 'DOWN': 0, 'LEFT': 0, 'START': 0, 'SELECT': 0, 'Y': 0, 'X': 0}
+        self.speed: int = speed
+        self.controller: dict[str, int] = {'UP': 0, 'RIGHT': 0, 'DOWN': 0, 'LEFT': 0, 'START': 0, 'SELECT': 0, 'Y': 0, 'X': 0}
 
-    def read_assembly_file(self):
+    def read_assembly_file(self) -> list[str]:
         try:
             with open(SAVE_PATH, 'r') as file:
                 return [line.strip() for line in file if line.strip()]
@@ -51,10 +51,10 @@ class Simulator:
             return []
 
 
-    def remove_comments(self, lines):
+    def remove_comments(self, lines: list[str]) -> list[str]:
         return [line.split('#')[0].strip() for line in lines if line.split('#')[0].strip()]
 
-    def extract_definitions(self, lines):
+    def extract_definitions(self, lines: list[str]) -> dict[str, str]:
         definitions = {}
         for line in lines:
             if line.startswith('define '):
@@ -62,13 +62,13 @@ class Simulator:
                 definitions[key] = value
         return definitions
 
-    def replace_definitions(self, lines, definitions):
-        result = []
+    def replace_definitions(self, lines: list[str], definitions: dict[str, str]) -> list[str]:
+        result: list[str] = []
         for line in lines:
             tokens = line.split()
             if line.startswith('define '):
                 continue
-            new_tokens = []
+            new_tokens: list[str] = []
             for token in tokens:
                 if token in definitions:
                     new_tokens.append(definitions[token])
@@ -78,18 +78,18 @@ class Simulator:
             result.append(' '.join(new_tokens))
         return result
 
-    def extract_labels(self, lines):
-        labels = {}
-        instruction_address = 0
+    def extract_labels(self, lines: list[str]) -> dict[str, str]:
+        labels: dict[str, str] = {}
+        instruction_address: int = 0
 
         for idx, line in enumerate(lines):
-            parts = line.split()
+            parts: list[str] = line.split()
 
             if not parts:
                 continue
 
             if parts[0].startswith('.'):
-                label_name = parts[0]
+                label_name: str = parts[0]
                 if len(parts) > 1:
                     labels[label_name] = str(instruction_address)
                     instruction_address += 1
@@ -100,15 +100,15 @@ class Simulator:
 
         return labels
 
-    def replace_labels(self, lines, labels):
-        result = []
+    def replace_labels(self, lines: list[str], labels: dict[str, str]) -> list[str]:
+        result: list[str] = []
         for line in lines:
             tokens = line.split()
             if line.startswith('.'):
                 if len(tokens) == 1:
                     continue  # line is only a label, skip it
                 tokens = tokens[1:]
-            new_tokens = []
+            new_tokens: list[str] = []
             for token in tokens:
                 if token in labels:
                     new_tokens.append(labels[token])
@@ -117,10 +117,10 @@ class Simulator:
             result.append(' '.join(new_tokens))
         return result
 
-    def extract_characters(self, lines):
-        tokens_re = re.compile(r'"[^"]*"|\S+')
+    def extract_characters(self, lines: list[str]) -> list[str]:
+        tokens_re: re.Pattern[str] = re.compile(r'"[^"]*"|\S+')
 
-        result = []
+        result: list[str] = []
         for line in lines:
             tokens = tokens_re.findall(line)
             new_tokens = []
@@ -130,17 +130,17 @@ class Simulator:
                     if len(inner) != 1:
                         self.display_error_message(f'Fatal Error. Character "{inner}" not in supported characters (A-Z, Space)')
                         return []
-                    if self.char_to_num(inner) is not '':
+                    if self.char_to_num(inner) != '':
                         new_tokens.append(self.char_to_num(inner))
                 else:
                     new_tokens.append(token)
             result.append(" ".join(new_tokens))
         return result
 
-    def preprocess_assembly(self):
-        lines = self.read_assembly_file()
+    def preprocess_assembly(self) -> list[str]:
+        lines: list[str] = self.read_assembly_file()
 
-        if lines is []:
+        if not lines:
             return []
 
         lines = self.remove_comments(lines)
@@ -156,7 +156,7 @@ class Simulator:
         return lines
 
     def bin_to_char(self, bin_str: str) -> str:
-        bin_to_char = {
+        bin_to_char: dict[str, str] = {
             '00001': 'A', '00010': 'B', '00011': 'C', '00100': 'D', '00101': 'E',
             '00110': 'F', '00111': 'G', '01000': 'H', '01001': 'I', '01010': 'J',
             '01011': 'K', '01100': 'L', '01101': 'M', '01110': 'N', '01111': 'O',
@@ -173,15 +173,15 @@ class Simulator:
         if char.isalpha():
             return str(ord(char.upper()) - ord('A') + 1)
         self.display_error_message(f'Fatal Error. Character "{char}" not in supported characters (A-Z, Space)')
-        return '' # represent error
+        return ''  # represents error
 
-    def bin_to_int(self, bin_str):
+    def bin_to_int(self, bin_str) -> int:
         return int(bin_str, 2)
 
-    def int_to_bin(self, val):
+    def int_to_bin(self, val) -> str:
         return format(val & 0xFFFF, '016b')
 
-    def update_alu_flags(self, result_bin):
+    def update_alu_flags(self, result_bin: str) -> None:
         # Minecraft Implementation
 
         self.ALU_FLAGS = {'BEQ': False, 'BNE': False, 'BLT': False, 'BGT': False}
@@ -198,11 +198,11 @@ class Simulator:
         if self.ALU_FLAGS['BEQ'] is False and self.ALU_FLAGS['BLT'] is False:
             self.ALU_FLAGS['BGT'] = True
 
-    def execute_instruction(self, instruction):
-        parts = instruction.split()
-        operation = parts[0]
-        mask = 0xFFFF  # Ensure 16 Bit Result
-        jump_instruction = False
+    def execute_instruction(self, instruction: str) -> None:
+        parts: list[str] = instruction.split()
+        operation: str = parts[0]
+        mask: int = 0xFFFF  # Ensure 16 Bit Result
+        jump_instruction: bool = False
 
         if operation not in self.OPERATIONS:
             self.display_error_message(f'Fatal Error. Operation {operation} not in Operations {self.OPERATIONS}')
@@ -306,25 +306,31 @@ class Simulator:
                 self.bin_to_int(self.program_counter) + 1
             )
 
-    def port_load(self, address, bin_reg_address):
-        bin_address = self.int_to_bin(int(address))[13:16]
+    def port_load(self, address: str, bin_reg_address: str) -> None:
+        bin_address: str = self.int_to_bin(int(address))[13:16]
 
-        value = 16 * '0'
+        value: str = 16 * '0'
 
         match bin_address:
             case '000':
+                value: str = (8 * '0' + str(self.controller['X']) + str(self.controller['Y']) +
+                         str(self.controller['SELECT']) + str(self.controller['START']) +
+                         str(self.controller['LEFT']) + str(self.controller['DOWN']) +
+                         str(self.controller['RIGHT']) + str(self.controller['UP']))
+
                 self.controller = {'UP': self.controller['UP'],
                                    'RIGHT': self.controller['RIGHT'],
                                    'DOWN': self.controller['DOWN'],
                                    'LEFT': self.controller['LEFT'],
                                    'START': 0, 'SELECT': 0, 'Y': 0, 'X': 0}
 
-                value = (8 * '0' + str(simulator.controller['X']) + str(simulator.controller['Y']) +
-                         str(simulator.controller['SELECT']) + str(simulator.controller['START']) +
-                         str(simulator.controller['LEFT']) + str(simulator.controller['DOWN']) +
-                         str(simulator.controller['RIGHT']) + str(simulator.controller['UP']))
+                # bug fix! update the controller buttons AFTER loading it to a register.
+                new_controller_value = (8 * '0' + str(self.controller['X']) + str(self.controller['Y']) +
+                         str(self.controller['SELECT']) + str(self.controller['START']) +
+                         str(self.controller['LEFT']) + str(self.controller['DOWN']) +
+                         str(self.controller['RIGHT']) + str(self.controller['UP']))
 
-                self.PORTS_READ_ONLY[f'P{address}'] = value
+                self.PORTS_READ_ONLY[f'P{address}'] = new_controller_value
                 # Bit 1 (LSB): D-Pad Up
                 # Bit 2: D-Pad Right
                 # Bit 3: D-Pad Down
@@ -338,7 +344,7 @@ class Simulator:
 
         self.REGISTERS[bin_reg_address] = value
 
-    def port_store(self, address, bin_value):
+    def port_store(self, address: str, bin_value: str) -> None:
         bin_address = self.int_to_bin(int(address))[13:16]
 
         # print(f'Port Store, {address = }, {bin_value = }')
@@ -385,7 +391,7 @@ class Simulator:
             case '111':  # Pushes the Buffer on store with any value
                 self.screen_data = copy.deepcopy(self.screen_buffer)
 
-    def reset_simulation(self):
+    def reset_simulation(self) -> None:
         global simulator
 
         self.simulation_running = False
@@ -394,7 +400,7 @@ class Simulator:
 
         _ = simulator.return_info(emit=True)
 
-    def step_simulation(self):
+    def step_simulation(self) -> None:
         self.simulation_running = False
 
         processed_lines = self.preprocess_assembly()
@@ -409,12 +415,12 @@ class Simulator:
 
         _ = self.return_info(emit=True)
 
-    def break_simulation(self):
+    def break_simulation(self) -> None:
         self.simulation_running = False
 
         _ = self.return_info(emit=True)
 
-    def run_simulation(self):
+    def run_simulation(self) -> None:
         self.simulation_running = True
 
         processed_lines = self.preprocess_assembly()
@@ -450,7 +456,7 @@ class Simulator:
 
             next_time += interval
 
-    def return_info(self, emit: bool):
+    def return_info(self, emit: bool) -> list[dict[str, str] | list[list[int]] | str | int | bool | list[str]]:
         decimal_info_list = [
             {f'{key[0]}{format(int(key[1:]), "02d")}': f'{format(self.bin_to_int(value), "05d")}' for key, value in
              self.REGISTERS.items()},
@@ -491,7 +497,7 @@ class Simulator:
 
         return decimal_info_list
 
-    def generate_schematic(self):
+    def generate_schematic(self) -> tuple[str, int]:
         try:
             with open(SAVE_PATH, 'r') as file:
                 code = file.read()
@@ -505,13 +511,13 @@ class Simulator:
             generator.generate()
         except Exception:
             self.display_error_message('Schematic generation failed')
-            return '', 500 # Internal Server Error
+            return '', 500  # Internal Server Error
         else:
             socketio.emit('generate_schematic_successful')
 
-        return '', 204 # No Content
+        return '', 204  # No Content
 
-    def display_error_message(self, message):
+    def display_error_message(self, message) -> None:
         socketio.emit('error_message', {'message': message})
 
 
@@ -519,45 +525,45 @@ simulator = Simulator(1)  # Standard Speed
 
 
 @socketio.on('reset_simulation')
-def handle_reset():
+def handle_reset() -> None:
     simulator.reset_simulation()
 
 
 @socketio.on('step_simulation')
-def handle_step():
+def handle_step() -> None:
     simulator.step_simulation()
 
 
 @socketio.on('stop_simulation')
-def handle_stop():
+def handle_stop() -> None:
     simulator.break_simulation()
 
 
 @socketio.on('continue_simulation')
-def handle_continue():
+def handle_continue() -> None:
     threading.Thread(target=simulator.run_simulation, daemon=True).start()
 
 
 @socketio.on('generate_schematic')
-def handle_generate_schematic():
+def handle_generate_schematic() -> tuple[str, int]:
     return simulator.generate_schematic()
 
 
 @socketio.on('update_speed')
-def handle_update_speed(data):
+def handle_update_speed(data) -> None:
     speed = data.get('speed')
     print(f'Updating speed from {simulator.speed} -> {speed}')
     simulator.speed = int(speed)
 
 
 @socketio.on('request_update')
-def handle_request_update():
+def handle_request_update() -> None:
     print(f'Requested an Update')
     simulator.return_info(emit=True)
 
 
 @socketio.on('controller_update')
-def handle_controller_update(data):
+def handle_controller_update(data) -> None:
     # print(f'controller update: {data}')
     controller_data = data.get('controller')
     # print(f'frontend: {controller_data} sent this.')
@@ -577,7 +583,7 @@ def handle_controller_update(data):
 
 
 @app.route('/save', methods=['POST'])
-def save_via_fetch():
+def save_via_fetch() -> tuple[str, int]:
     code_input = request.form.get('codeInput', '').replace('\r\n', '\n').rstrip()
     with open(SAVE_PATH, 'w') as f:
         f.write(code_input)
@@ -587,7 +593,7 @@ def save_via_fetch():
 
 
 @app.route('/', methods=['GET'])
-def ui_index():
+def ui_index() -> str:  # returns flask template (str)
     saved_code = ''
     try:
         with open(SAVE_PATH, 'r') as file:
@@ -616,7 +622,7 @@ def ui_index():
 
 
 @app.route('/upload', methods=['POST'])
-def upload():
+def upload() -> tuple[str, int]:
     file = request.files['file']
     content = ""
 
