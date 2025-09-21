@@ -130,7 +130,7 @@ class Simulator:
                     if len(inner) != 1:
                         self.display_error_message(f'Fatal Error. Character "{inner}" not in supported characters (A-Z, Space)')
                         return []
-                    if self.char_to_num(inner) != '':
+                    if self.char_to_num(inner) is not '':
                         new_tokens.append(self.char_to_num(inner))
                 else:
                     new_tokens.append(token)
@@ -313,24 +313,18 @@ class Simulator:
 
         match bin_address:
             case '000':
-                value = (8 * '0' + str(self.controller['X']) + str(self.controller['Y']) +
-                         str(self.controller['SELECT']) + str(self.controller['START']) +
-                         str(self.controller['LEFT']) + str(self.controller['DOWN']) +
-                         str(self.controller['RIGHT']) + str(self.controller['UP']))
-
                 self.controller = {'UP': self.controller['UP'],
                                    'RIGHT': self.controller['RIGHT'],
                                    'DOWN': self.controller['DOWN'],
                                    'LEFT': self.controller['LEFT'],
                                    'START': 0, 'SELECT': 0, 'Y': 0, 'X': 0}
 
-                # bug fix! update the controller buttons AFTER loading it to a register.
-                new_controller_value = (8 * '0' + str(self.controller['X']) + str(self.controller['Y']) +
-                         str(self.controller['SELECT']) + str(self.controller['START']) +
-                         str(self.controller['LEFT']) + str(self.controller['DOWN']) +
-                         str(self.controller['RIGHT']) + str(self.controller['UP']))
+                value = (8 * '0' + str(simulator.controller['X']) + str(simulator.controller['Y']) +
+                         str(simulator.controller['SELECT']) + str(simulator.controller['START']) +
+                         str(simulator.controller['LEFT']) + str(simulator.controller['DOWN']) +
+                         str(simulator.controller['RIGHT']) + str(simulator.controller['UP']))
 
-                self.PORTS_READ_ONLY[f'P{address}'] = new_controller_value
+                self.PORTS_READ_ONLY[f'P{address}'] = value
                 # Bit 1 (LSB): D-Pad Up
                 # Bit 2: D-Pad Right
                 # Bit 3: D-Pad Down
@@ -564,8 +558,8 @@ def handle_request_update():
 
 @socketio.on('controller_update')
 def handle_controller_update(data):
+    # print(f'controller update: {data}')
     controller_data = data.get('controller')
-    # print(f'current controller data: {simulator.controller}')
     # print(f'frontend: {controller_data} sent this.')
     simulator.controller = {'UP': controller_data['UP'], 'RIGHT': controller_data['RIGHT'],
                             'DOWN': controller_data['DOWN'], 'LEFT': controller_data['LEFT'],
@@ -578,7 +572,6 @@ def handle_controller_update(data):
              str(simulator.controller['LEFT']) + str(simulator.controller['DOWN']) +
              str(simulator.controller['RIGHT']) + str(simulator.controller['UP']))
     simulator.PORTS_READ_ONLY['P0'] = value
-    # print(f'updated controller data: {simulator.controller}')
     simulator.return_info(emit=True)
     # print(f'backend: {simulator.controller} updated this.')
 
