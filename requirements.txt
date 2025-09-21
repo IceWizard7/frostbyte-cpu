@@ -2,3 +2,4 @@ flask
 flask-socketio
 colorama
 mcschematic
+pywebview

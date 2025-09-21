@@ -6,11 +6,16 @@ import random
 from assembly_to_schematic import generator
 import copy
 import re
+import webview
 
 app = Flask(__name__)
 socketio = SocketIO(app)
 
-SAVE_PATH = 'saved_input.txt'
+SAVE_PATH: str = 'saved_input.txt'
+PORT: int = 5001
+
+EXPERIMENTAL_GUI: bool = True
+ZOOM_LEVEL_GUI: str = '67%'
 
 
 class Simulator:
@@ -638,6 +643,18 @@ def upload() -> tuple[str, int]:
 
     return '', 204
 
+def start_app() -> None:
+    socketio.run(app=app, host="0.0.0.0", port=PORT, debug=True, allow_unsafe_werkzeug=True, use_reloader=False)
+
+def set_zoom(window) -> None:
+    window.evaluate_js(f"document.body.style.zoom = '{ZOOM_LEVEL_GUI}';")
+
+def start_webview() -> None:
+    window = webview.create_window('Assembler UI', f'http://127.0.0.1:{PORT}')
+    webview.start(set_zoom, window)
+
 
 if __name__ == '__main__':
-    socketio.run(app=app, host="0.0.0.0", port=5001, debug=True, allow_unsafe_werkzeug=True)
+    threading.Thread(target=start_app).start()
+    if EXPERIMENTAL_GUI:
+        start_webview()

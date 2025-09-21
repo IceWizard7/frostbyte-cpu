@@ -97,7 +97,7 @@ All the I/O devices and mappings can be found [here](https://docs.google.com/spr
 - Press "Continue" to start the program
 
 > Note:
-If you get a "Permission denied" (or similar) error when running app.py, consider changing the port (standard = 5001) in the last line of app.py \
+If you get a "Permission denied" (or similar) error when running app.py, consider changing the port (standard = 5001) in line 14 of app.py (PORT = 5001) \
 If the simulator ever breaks and just throws errors in the browser, clear the saved_input.txt file \
 When re-running app.py, make sure to refresh the web page on the client, to ensure the speed is updated. \
 When changing speeds, it might need 2-3 Seconds to update. To overcome this, you can alternatively press "Stop" and then "Continue". \
