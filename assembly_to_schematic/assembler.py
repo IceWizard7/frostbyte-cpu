@@ -24,8 +24,8 @@ OPCODES = {'NOP': '00000',
            }
 
 
-def read_assembly_file(filename='assembly_to_schematic/assembly.txt'):
-    with open(filename, 'r') as file:
+def read_assembly_file(assembly_file):
+    with open(assembly_file, 'r') as file:
         return [line.strip() for line in file if line.strip()]
 
 
@@ -127,8 +127,8 @@ def char_to_num(char: str) -> str:
     raise (ValueError, f'{Fore.RED}Fatal Error. Character "{char}" not in supported characters (A-Z, Space){Style.RESET_ALL}')
 
 
-def preprocess_assembly():
-    lines = read_assembly_file()
+def preprocess_assembly(assembly_file):
+    lines = read_assembly_file(assembly_file)
     lines = remove_comments(lines)
 
     definitions = extract_definitions(lines)
@@ -142,8 +142,8 @@ def preprocess_assembly():
     return lines
 
 
-def write_machine_code(machine_code):
-    with open('assembly_to_schematic/machine_code.txt', 'w') as file:
+def write_machine_code(machine_code, machine_code_file):
+    with open(machine_code_file, 'w') as file:
         for line in machine_code:
             file.write(line + '\n')
 
@@ -178,11 +178,21 @@ def translate_instruction_to_machine_code(instruction):
         raise (ValueError, f'{Fore.RED}Fatal Error. Instruction {instruction} not found.{Style.RESET_ALL}')
 
 
-def generate_machine_code():
+def generate_machine_code(assembly_file, machine_code_file) -> None | str:
     machine_code = []
-    processed_lines = preprocess_assembly()
+
+    try:
+        processed_lines = preprocess_assembly(assembly_file)
+    except FileNotFoundError:
+        raise FileNotFoundError('Fatal Error. File "{assembly_file}"was not found. Perhaps create it?')
+
     for line in processed_lines:
         machine_code.append(translate_instruction_to_machine_code(line.upper()))
-    write_machine_code(machine_code)
-    # print()
+
+    try:
+        write_machine_code(machine_code, machine_code_file)
+    except FileNotFoundError:
+        raise FileNotFoundError('Fatal Error. File "{machine_code_file}"was not found. Perhaps create it?')
+
     print(f'{Fore.LIGHTGREEN_EX}Successfully generated Machine Code!{Style.RESET_ALL}')
+    return None

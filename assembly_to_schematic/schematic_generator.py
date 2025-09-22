@@ -10,13 +10,17 @@ for i in range(32):
         xz_locations.append((3 + i*6, 0 + -j*2))
 
 
-def generate_schematic():
-    filename = f'Program_{datetime.datetime.now().strftime("%d_%m_%y-%H_%M_%S")}'
+def generate_schematic(machine_code_file):
+    schematic_file = f'Program_{datetime.datetime.now().strftime("%d_%m_%y-%H_%M_%S")}'
 
     schem = mcschematic.MCSchematic()
 
-    with open('assembly_to_schematic/machine_code.txt', 'r') as file:
-        content = file.readlines()
+    try:
+        with open(machine_code_file, 'r') as file:
+            content = file.readlines()
+    except FileNotFoundError:
+        raise FileNotFoundError(f'Fatal Error. File "{machine_code_file}"was not found. Perhaps create it?')
+
 
     clean_content = []
     for line in content:
@@ -40,9 +44,9 @@ def generate_schematic():
             schem.setBlock((xz_locations[address][0], y_locations[y_pos], xz_locations[address][1]), blockData=block_data)
             schem.setBlock((xz_locations[address][0], y_locations[y_pos] - 1, xz_locations[address][1]), blockData='minecraft:magenta_wool')
 
-    schem.save('programs', filename, mcschematic.Version.JE_1_20_4)
+    schem.save('programs', schematic_file, mcschematic.Version.JE_1_20_4)
 
-    print(f'{Fore.LIGHTGREEN_EX}Successfully generated Schematic! ({filename}){Style.RESET_ALL}')
+    print(f'{Fore.LIGHTGREEN_EX}Successfully generated Schematic! ({schematic_file}){Style.RESET_ALL}')
     # print(f'Paste with:')
     # print(f'//schematic load {filename}')
     # print(f'//paste -a')

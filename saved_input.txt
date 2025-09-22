@@ -2,7 +2,7 @@ adi r1 r0 17 # Y
 adi r2 r0 5 # X
 
 
-# simlauted LSH using add
+# simulated LSH using add
 add r2 r2 r2 # shift X 5 times
 add r2 r2 r2 # to get it into position
 add r2 r2 r2 # (Bit 1-5: Y)

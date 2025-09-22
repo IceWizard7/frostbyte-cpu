@@ -504,18 +504,9 @@ class Simulator:
 
     def generate_schematic(self) -> tuple[str, int]:
         try:
-            with open(SAVE_PATH, 'r') as file:
-                code = file.read()
-        except FileNotFoundError:
-            self.display_error_message(f'Fatal Error. File "{SAVE_PATH}"was not found. Perhaps create it?')
-
-        with open('assembly_to_schematic/assembly.txt', 'w') as file:
-            for line in code:
-                file.write(line)
-        try:
-            generator.generate()
-        except Exception:
-            self.display_error_message('Schematic generation failed')
+            generator.generate(assembly_file=SAVE_PATH)
+        except Exception as error:
+            self.display_error_message(error)
             return '', 500  # Internal Server Error
         else:
             socketio.emit('generate_schematic_successful')
