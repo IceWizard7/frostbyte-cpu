@@ -111,7 +111,7 @@ def extract_characters(lines):
             if token.startswith('"') and token.endswith('"'):
                 inner = token[1:-1]  # content inside quotes
                 if len(inner) != 1:
-                    raise (ValueError, f'{Fore.RED}Fatal Error. Character "{inner}" not in supported characters (A-Z, Space){Style.RESET_ALL}')
+                    raise ValueError(f'{Fore.RED}Fatal Error. Character "{inner}" not in supported characters (A-Z, Space){Style.RESET_ALL}')
                 new_tokens.append(char_to_num(inner))
             else:
                 new_tokens.append(token)
@@ -124,7 +124,7 @@ def char_to_num(char: str) -> str:
         return '0'
     if char.isalpha():
         return str(ord(char.upper()) - ord('A') + 1)
-    raise (ValueError, f'{Fore.RED}Fatal Error. Character "{char}" not in supported characters (A-Z, Space){Style.RESET_ALL}')
+    raise ValueError(f'{Fore.RED}Fatal Error. Character "{char}" not in supported characters (A-Z, Space){Style.RESET_ALL}')
 
 
 def preprocess_assembly(assembly_file):
@@ -175,7 +175,7 @@ def translate_instruction_to_machine_code(instruction):
     elif instruction.startswith('HLT'):  # Halt Instruction (TYPE -)
         return 27 * '0' + opcode
     else:
-        raise (ValueError, f'{Fore.RED}Fatal Error. Instruction {instruction} not found.{Style.RESET_ALL}')
+        raise ValueError(f'{Fore.RED}Fatal Error. Instruction {instruction} not found.{Style.RESET_ALL}')
 
 
 def generate_machine_code(assembly_file, machine_code_file) -> None | str:
