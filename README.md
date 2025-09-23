@@ -96,7 +96,7 @@ All the I/O devices and mappings can be found [here](https://docs.google.com/spr
 - Drag and drop the Assembler file in the dashed-outline box
 - Press "Continue" to start the program
 
-#### (NEW) Experimental GUI: \
+#### (NEW) Experimental GUI:
 You can enable / disable the GUI (instead of using the browser) by changing
 ```python
 EXPERIMENTAL_GUI: bool = True
@@ -119,7 +119,7 @@ If you get a "Permission denied" (or similar) error when running app.py, conside
 If the simulator ever breaks and just throws errors in the browser, clear the saved_input.txt file \
 \
 When re-running app.py, make sure to refresh the web page on the client, to ensure the speed is updated \
-When changing speeds, it might need 2-3 Seconds to update. To overcome this, you can alternatively press "Stop" and then "Continue". \
+When changing speeds, it might need 2-3 Seconds to update. To overcome this, you can alternatively press "Stop" and then "Continue" \
 \
 I recommend lowering your browser zoom to ~70%, depending on your screen size \
 Your Browser might have issues when running programs at insane speeds (on my machine, bugs start happening at ~1700 Instructions / Second) \
