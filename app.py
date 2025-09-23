@@ -213,87 +213,86 @@ class Simulator:
             self.display_error_message(f'Fatal Error. Operation {operation} not in Operations {self.OPERATIONS}')
             return
 
-        match operation:
-            case 'NOP':
-                pass
-            case 'ADD':
-                self.REGISTERS[parts[1]] = self.int_to_bin(
-                    (self.bin_to_int(self.REGISTERS[parts[2]]) + self.bin_to_int(self.REGISTERS[parts[3]])) & mask
-                )
-                self.update_alu_flags(self.REGISTERS[parts[1]])
-            case 'SUB':
-                self.REGISTERS[parts[1]] = self.int_to_bin(
-                    (self.bin_to_int(self.REGISTERS[parts[2]]) - self.bin_to_int(self.REGISTERS[parts[3]])) & mask
-                )
-                self.update_alu_flags(self.REGISTERS[parts[1]])
-            case 'XOR':
-                self.REGISTERS[parts[1]] = self.int_to_bin(
-                    (self.bin_to_int(self.REGISTERS[parts[2]]) ^ self.bin_to_int(self.REGISTERS[parts[3]])) & mask
-                )
-                self.update_alu_flags(self.REGISTERS[parts[1]])
-            case 'OR':
-                self.REGISTERS[parts[1]] = self.int_to_bin(
-                    (self.bin_to_int(self.REGISTERS[parts[2]]) | self.bin_to_int(self.REGISTERS[parts[3]])) & mask
-                )
-                self.update_alu_flags(self.REGISTERS[parts[1]])
-            case 'AND':
-                self.REGISTERS[parts[1]] = self.int_to_bin(
-                    (self.bin_to_int(self.REGISTERS[parts[2]]) & self.bin_to_int(self.REGISTERS[parts[3]])) & mask
-                )
-                self.update_alu_flags(self.REGISTERS[parts[1]])
-            case 'RSH':
-                self.REGISTERS[parts[1]] = self.int_to_bin(
-                    (self.bin_to_int(self.REGISTERS[parts[2]]) >> 1) & mask
-                )
-                self.update_alu_flags(self.REGISTERS[parts[1]])
-            case 'ADI':
-                self.REGISTERS[parts[1]] = self.int_to_bin(
-                    (self.bin_to_int(self.REGISTERS[parts[2]]) + int(parts[3])) & mask
-                )
-                self.update_alu_flags(self.REGISTERS[parts[1]])
-            case 'ST':
-                self.DATA_MEMORY_ADDRESSES['D' + str(
-                    self.bin_to_int(self.REGISTERS[parts[2]]) + int(parts[3])
-                )] = self.REGISTERS[parts[1]]
-            case 'LD':
-                self.REGISTERS[parts[1]] = self.DATA_MEMORY_ADDRESSES['D' + str(
-                    self.bin_to_int(self.REGISTERS[parts[2]]) + int(parts[3])
-                )]
-            case 'PT-ST':
-                self.port_store(parts[2][1:], self.REGISTERS[parts[1]])
-            case 'PT-LD':
-                self.port_load(parts[2][1:], parts[1])
-            case 'JMP':
+        if operation == 'NOP':
+            pass
+        elif operation == 'ADD':
+            self.REGISTERS[parts[1]] = self.int_to_bin(
+                (self.bin_to_int(self.REGISTERS[parts[2]]) + self.bin_to_int(self.REGISTERS[parts[3]])) & mask
+            )
+            self.update_alu_flags(self.REGISTERS[parts[1]])
+        elif operation == 'SUB':
+            self.REGISTERS[parts[1]] = self.int_to_bin(
+                (self.bin_to_int(self.REGISTERS[parts[2]]) - self.bin_to_int(self.REGISTERS[parts[3]])) & mask
+            )
+            self.update_alu_flags(self.REGISTERS[parts[1]])
+        elif operation == 'XOR':
+            self.REGISTERS[parts[1]] = self.int_to_bin(
+                (self.bin_to_int(self.REGISTERS[parts[2]]) ^ self.bin_to_int(self.REGISTERS[parts[3]])) & mask
+            )
+            self.update_alu_flags(self.REGISTERS[parts[1]])
+        elif operation == 'OR':
+            self.REGISTERS[parts[1]] = self.int_to_bin(
+                (self.bin_to_int(self.REGISTERS[parts[2]]) | self.bin_to_int(self.REGISTERS[parts[3]])) & mask
+            )
+            self.update_alu_flags(self.REGISTERS[parts[1]])
+        elif operation == 'AND':
+            self.REGISTERS[parts[1]] = self.int_to_bin(
+                (self.bin_to_int(self.REGISTERS[parts[2]]) & self.bin_to_int(self.REGISTERS[parts[3]])) & mask
+            )
+            self.update_alu_flags(self.REGISTERS[parts[1]])
+        elif operation == 'RSH':
+            self.REGISTERS[parts[1]] = self.int_to_bin(
+                (self.bin_to_int(self.REGISTERS[parts[2]]) >> 1) & mask
+            )
+            self.update_alu_flags(self.REGISTERS[parts[1]])
+        elif operation == 'ADI':
+            self.REGISTERS[parts[1]] = self.int_to_bin(
+                (self.bin_to_int(self.REGISTERS[parts[2]]) + int(parts[3])) & mask
+            )
+            self.update_alu_flags(self.REGISTERS[parts[1]])
+        elif operation == 'ST':
+            self.DATA_MEMORY_ADDRESSES['D' + str(
+                self.bin_to_int(self.REGISTERS[parts[2]]) + int(parts[3])
+            )] = self.REGISTERS[parts[1]]
+        elif operation == 'LD':
+            self.REGISTERS[parts[1]] = self.DATA_MEMORY_ADDRESSES['D' + str(
+                self.bin_to_int(self.REGISTERS[parts[2]]) + int(parts[3])
+            )]
+        elif operation == 'PT-ST':
+            self.port_store(parts[2][1:], self.REGISTERS[parts[1]])
+        elif operation == 'PT-LD':
+            self.port_load(parts[2][1:], parts[1])
+        elif operation == 'JMP':
+            self.program_counter = self.int_to_bin(int(parts[1]))
+            jump_instruction = True
+        elif operation == 'CAL':
+            self.call_stack.append(self.int_to_bin(
+                self.bin_to_int(self.program_counter) + 1
+            ))
+            self.program_counter = self.int_to_bin(int(parts[1]))
+            jump_instruction = True
+        elif operation == 'RET':
+            self.program_counter = self.call_stack.pop()
+            jump_instruction = True
+        elif operation == 'BEQ':
+            if self.ALU_FLAGS['BEQ']:
                 self.program_counter = self.int_to_bin(int(parts[1]))
                 jump_instruction = True
-            case 'CAL':
-                self.call_stack.append(self.int_to_bin(
-                    self.bin_to_int(self.program_counter) + 1
-                ))
+        elif operation == 'BNE':
+            if self.ALU_FLAGS['BNE']:
                 self.program_counter = self.int_to_bin(int(parts[1]))
                 jump_instruction = True
-            case 'RET':
-                self.program_counter = self.call_stack.pop()
+        elif operation == 'BLT':
+            if self.ALU_FLAGS['BLT']:
+                self.program_counter = self.int_to_bin(int(parts[1]))
                 jump_instruction = True
-            case 'BEQ':
-                if self.ALU_FLAGS['BEQ']:
-                    self.program_counter = self.int_to_bin(int(parts[1]))
-                    jump_instruction = True
-            case 'BNE':
-                if self.ALU_FLAGS['BNE']:
-                    self.program_counter = self.int_to_bin(int(parts[1]))
-                    jump_instruction = True
-            case 'BLT':
-                if self.ALU_FLAGS['BLT']:
-                    self.program_counter = self.int_to_bin(int(parts[1]))
-                    jump_instruction = True
-            case 'BGT':
-                if self.ALU_FLAGS['BGT']:
-                    self.program_counter = self.int_to_bin(int(parts[1]))
-                    jump_instruction = True
-            case 'HLT':
-                self.simulation_running = False
-                jump_instruction = True  # In case Program gets continued again, Halt will be spammed
+        elif operation == 'BGT':
+            if self.ALU_FLAGS['BGT']:
+                self.program_counter = self.int_to_bin(int(parts[1]))
+                jump_instruction = True
+        elif operation == 'HLT':
+            self.simulation_running = False
+            jump_instruction = True  # In case Program gets continued again, Halt will be spammed
 
         self.PORTS_READ_ONLY['P1'] = format(random.randint(0, 65535), '016b')  # Generate Random Number at Port 1 for each clock cycle
 
@@ -316,36 +315,35 @@ class Simulator:
 
         value: str = 16 * '0'
 
-        match bin_address:
-            case '000':
-                value: str = (8 * '0' + str(self.controller['X']) + str(self.controller['Y']) +
-                         str(self.controller['SELECT']) + str(self.controller['START']) +
-                         str(self.controller['LEFT']) + str(self.controller['DOWN']) +
-                         str(self.controller['RIGHT']) + str(self.controller['UP']))
+        if bin_address == '000':
+            value: str = (8 * '0' + str(self.controller['X']) + str(self.controller['Y']) +
+                     str(self.controller['SELECT']) + str(self.controller['START']) +
+                     str(self.controller['LEFT']) + str(self.controller['DOWN']) +
+                     str(self.controller['RIGHT']) + str(self.controller['UP']))
 
-                self.controller = {'UP': self.controller['UP'],
-                                   'RIGHT': self.controller['RIGHT'],
-                                   'DOWN': self.controller['DOWN'],
-                                   'LEFT': self.controller['LEFT'],
-                                   'START': 0, 'SELECT': 0, 'Y': 0, 'X': 0}
+            self.controller = {'UP': self.controller['UP'],
+                               'RIGHT': self.controller['RIGHT'],
+                               'DOWN': self.controller['DOWN'],
+                               'LEFT': self.controller['LEFT'],
+                               'START': 0, 'SELECT': 0, 'Y': 0, 'X': 0}
 
-                # bug fix! update the controller buttons AFTER loading it to a register.
-                new_controller_value = (8 * '0' + str(self.controller['X']) + str(self.controller['Y']) +
-                         str(self.controller['SELECT']) + str(self.controller['START']) +
-                         str(self.controller['LEFT']) + str(self.controller['DOWN']) +
-                         str(self.controller['RIGHT']) + str(self.controller['UP']))
+            # bug fix! update the controller buttons AFTER loading it to a register.
+            new_controller_value = (8 * '0' + str(self.controller['X']) + str(self.controller['Y']) +
+                     str(self.controller['SELECT']) + str(self.controller['START']) +
+                     str(self.controller['LEFT']) + str(self.controller['DOWN']) +
+                     str(self.controller['RIGHT']) + str(self.controller['UP']))
 
-                self.PORTS_READ_ONLY[f'P{address}'] = new_controller_value
-                # Bit 1 (LSB): D-Pad Up
-                # Bit 2: D-Pad Right
-                # Bit 3: D-Pad Down
-                # Bit 4: D-Pad Left
-                # Bit 5: Start
-                # Bit 6: Select
-                # Bit 7: Y
-                # Bit 8 (MSB): X
-            case '001':
-                value = self.PORTS_READ_ONLY[f'P{address}']
+            self.PORTS_READ_ONLY[f'P{address}'] = new_controller_value
+            # Bit 1 (LSB): D-Pad Up
+            # Bit 2: D-Pad Right
+            # Bit 3: D-Pad Down
+            # Bit 4: D-Pad Left
+            # Bit 5: Start
+            # Bit 6: Select
+            # Bit 7: Y
+            # Bit 8 (MSB): X
+        elif bin_address == '001':
+            value = self.PORTS_READ_ONLY[f'P{address}']
 
         self.REGISTERS[bin_reg_address] = value
 
@@ -356,45 +354,44 @@ class Simulator:
 
         self.PORTS_WRITE_ONLY[f'P{address}'] = bin_value
 
-        match bin_address:
-            case '000':  # Format: XXXXXXXXXXXXXX (14), Clear Letter Buffer (1), Update Letter Buffer (1)
-                if bin_value[15] == '1':  # Update Letter Buffer
-                    self.letters_data = self.letters_buffer
-                if bin_value[14] == '1':  # Clear Letter Buffer
-                    self.letters_pointer = 0
-                    self.letters_buffer = self.letters_buffer = ['_' for _ in range(11)]
-            case '001':  # Format: XXXXXXXXXXX (11), Character (5)
-                char = self.bin_to_char(bin_value[11:16])
-                self.letters_buffer[self.letters_pointer] = char
-                self.letters_pointer += 1
-                if self.letters_pointer > 10:
-                    self.letters_pointer = 0
-            case '010':  # Format: XXXXXX (6), Sign Mode (1), Enable (1), Number (8)
-                self.number = str(format(self.bin_to_int(bin_value[8:16]), '03d'))
-                self.big_number = str(format(self.bin_to_int(bin_value), '05d'))  # <- 16 Bit Testing Display
+        if bin_address == '000':  # Format: XXXXXXXXXXXXXX (14), Clear Letter Buffer (1), Update Letter Buffer (1)
+            if bin_value[15] == '1':  # Update Letter Buffer
+                self.letters_data = self.letters_buffer
+            if bin_value[14] == '1':  # Clear Letter Buffer
+                self.letters_pointer = 0
+                self.letters_buffer = self.letters_buffer = ['_' for _ in range(11)]
+        elif bin_address == '001':  # Format: XXXXXXXXXXX (11), Character (5)
+            char = self.bin_to_char(bin_value[11:16])
+            self.letters_buffer[self.letters_pointer] = char
+            self.letters_pointer += 1
+            if self.letters_pointer > 10:
+                self.letters_pointer = 0
+        elif bin_address == '010':  # Format: XXXXXX (6), Sign Mode (1), Enable (1), Number (8)
+            self.number = str(format(self.bin_to_int(bin_value[8:16]), '03d'))
+            self.big_number = str(format(self.bin_to_int(bin_value), '05d'))  # <- 16 Bit Testing Display
 
-                if bin_value[6] == '1':  # Sign Mode
-                    self.number = str(format(int(self.number), '03d') if int(self.number) < 128 else format(int(self.number) - 256, '04d'))
-                if bin_value[7] == '0':  # Disable
-                    self.number = '___'
-            case '011':  # Format: XXXXXX (6), X (5), Y (5)
-                self.screen_x = self.bin_to_int(bin_value[6:11])
-                self.screen_y = self.bin_to_int(bin_value[11:16])
-                # print(self.screen_x, self.screen_y)
-            case '100':  # Draws the Pixel on store with any value
-                try:
-                    self.screen_buffer[31 - self.screen_y][31 - self.screen_x] = self.screen_d_latch_data
-                except IndexError:
-                    self.display_error_message(f'Screen Coordinates: [X: {self.screen_x}, Y: {self.screen_y}] not found. X, Y must be in range [1;31]')
-                    return
-            case '101':  # Format: XXXXXXXXXXXXXXX (15), Screen Data Value (1)
-                self.screen_d_latch_data = int(bin_value[15])
-            case '110':  # Sets all Pixels on store with any value
-                for x in range(31):
-                    for y in range(31):
-                        self.screen_buffer[y][x] = self.screen_d_latch_data
-            case '111':  # Pushes the Buffer on store with any value
-                self.screen_data = copy.deepcopy(self.screen_buffer)
+            if bin_value[6] == '1':  # Sign Mode
+                self.number = str(format(int(self.number), '03d') if int(self.number) < 128 else format(int(self.number) - 256, '04d'))
+            if bin_value[7] == '0':  # Disable
+                self.number = '___'
+        elif bin_address == '011':  # Format: XXXXXX (6), X (5), Y (5)
+            self.screen_x = self.bin_to_int(bin_value[6:11])
+            self.screen_y = self.bin_to_int(bin_value[11:16])
+            # print(self.screen_x, self.screen_y)
+        elif bin_address == '100':  # Draws the Pixel on store with any value
+            try:
+                self.screen_buffer[31 - self.screen_y][31 - self.screen_x] = self.screen_d_latch_data
+            except IndexError:
+                self.display_error_message(f'Screen Coordinates: [X: {self.screen_x}, Y: {self.screen_y}] not found. X, Y must be in range [1;31]')
+                return
+        elif bin_address == '101':  # Format: XXXXXXXXXXXXXXX (15), Screen Data Value (1)
+            self.screen_d_latch_data = int(bin_value[15])
+        elif bin_address == '110':  # Sets all Pixels on store with any value
+            for x in range(31):
+                for y in range(31):
+                    self.screen_buffer[y][x] = self.screen_d_latch_data
+        elif bin_address == '111':  # Pushes the Buffer on store with any value
+            self.screen_data = copy.deepcopy(self.screen_buffer)
 
     def reset_simulation(self) -> None:
         global simulator
