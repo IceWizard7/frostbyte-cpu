@@ -1,7 +1,4 @@
-machine_code.txt
 saved_input.txt
-assembly_to_schematic/assembly.txt
-assembly_to_schematic/machine_code.txt
 programs/*
 __pycache__
 assembly_to_schematic/__pycache__
