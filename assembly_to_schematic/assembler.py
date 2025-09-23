@@ -178,7 +178,7 @@ def translate_instruction_to_machine_code(instruction):
         raise ValueError(f'{Fore.RED}Fatal Error. Instruction {instruction} not found.{Style.RESET_ALL}')
 
 
-def generate_machine_code(assembly_file, machine_code_file) -> None | str:
+def generate_machine_code(assembly_file) -> list[str]:
     machine_code = []
 
     try:
@@ -189,10 +189,5 @@ def generate_machine_code(assembly_file, machine_code_file) -> None | str:
     for line in processed_lines:
         machine_code.append(translate_instruction_to_machine_code(line.upper()))
 
-    try:
-        write_machine_code(machine_code, machine_code_file)
-    except FileNotFoundError:
-        raise FileNotFoundError('Fatal Error. File "{machine_code_file}"was not found. Perhaps create it?')
-
     print(f'{Fore.LIGHTGREEN_EX}Successfully generated Machine Code!{Style.RESET_ALL}')
-    return None
+    return machine_code

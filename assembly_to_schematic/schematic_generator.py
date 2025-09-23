@@ -10,20 +10,13 @@ for i in range(32):
         xz_locations.append((3 + i*6, 0 + -j*2))
 
 
-def generate_schematic(machine_code_file):
+def generate_schematic(machine_code):
     schematic_file = f'Program_{datetime.datetime.now().strftime("%d_%m_%y-%H_%M_%S")}'
 
     schem = mcschematic.MCSchematic()
 
-    try:
-        with open(machine_code_file, 'r') as file:
-            content = file.readlines()
-    except FileNotFoundError:
-        raise FileNotFoundError(f'Fatal Error. File "{machine_code_file}"was not found. Perhaps create it?')
-
-
     clean_content = []
-    for line in content:
+    for line in machine_code:
         clean_content.append(line.replace('\n', ''))  # Remove new lines
 
     if any(len(item) != 32 for item in clean_content):  # Too many / too few characters at one line
