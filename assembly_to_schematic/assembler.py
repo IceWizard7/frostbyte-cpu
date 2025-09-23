@@ -142,12 +142,6 @@ def preprocess_assembly(assembly_file):
     return lines
 
 
-def write_machine_code(machine_code, machine_code_file):
-    with open(machine_code_file, 'w') as file:
-        for line in machine_code:
-            file.write(line + '\n')
-
-
 def translate_instruction_to_machine_code(instruction):
     parts = instruction.split()
     opcode = OPCODES[parts[0]]
